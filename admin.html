@@ -161,7 +161,7 @@
 
       <section id="bookings" class="view">
         <div class="mb-6"><p class="text-[10px] font-bold uppercase tracking-[.18em] text-[#a47b40]">Travel activity</p><h1 class="display mt-1 text-2xl font-extrabold">Bookings</h1><p class="mt-2 text-xs text-slate-500">Bookings are represented by issued invoices in this local demo.</p></div>
-        <div class="card p-5 sm:p-6"><div class="table-wrap"><table class="w-full min-w-[650px] text-left"><thead><tr class="border-b border-slate-100 text-[10px] uppercase tracking-wide text-slate-400"><th class="pb-3">Booking / invoice</th><th class="pb-3">Client</th><th class="pb-3">Service</th><th class="pb-3">Date</th><th class="pb-3">Amount</th><th class="pb-3">Status</th></tr></thead><tbody id="bookingTable"></tbody></table></div><p id="bookingEmpty" class="hidden py-10 text-center text-xs text-slate-400">No bookings yet. Create an invoice to record a booking.</p></div>
+        <div class="card p-5 sm:p-6"><div class="table-wrap"><table class="w-full min-w-[650px] text-left"><thead><tr class="border-b border-slate-100 text-[10px] uppercase tracking-wide text-slate-400"><th class="pb-3">Booking / invoice</th><th class="pb-3">Client</th><th class="pb-3">Service</th><th class="pb-3">Date</th><th class="pb-3">Amount</th><th class="pb-3">Status</th><th class="pb-3">Actions</th></tr></thead><tbody id="bookingTable"></tbody></table></div><p id="bookingEmpty" class="hidden py-10 text-center text-xs text-slate-400">No bookings yet. Create an invoice to record a booking.</p></div>
       </section>
     </main>
   </div>
@@ -205,7 +205,23 @@
     };
     let invoices = readStore(STORAGE.invoices);
     let clients = readStore(STORAGE.clients);
-    let invoiceCounter = invoices.length;
+    const invoiceYear = new Date().getFullYear();
+    const invoiceCounterKey = `${STORAGE.invoices}.counter.${invoiceYear}`;
+    function readInvoiceCounter() {
+      let savedCounter = 0;
+      try {
+        const value = Number(JSON.parse(localStorage.getItem(invoiceCounterKey) || '0'));
+        if (Number.isSafeInteger(value) && value > 0) savedCounter = value;
+      } catch (error) {
+        console.error('Unable to read the invoice counter from local storage.', error);
+      }
+      const existingCounter = invoices.reduce((max, invoice) => {
+        const match = String(invoice.number || '').match(new RegExp(`^TK-${invoiceYear}-(\\d+)$`));
+        return match ? Math.max(max, Number(match[1])) : max;
+      }, 0);
+      return Math.max(savedCounter, existingCounter);
+    }
+    let invoiceCounter = readInvoiceCounter();
     const today = new Date().toISOString().slice(0, 10);
     document.getElementById('invoiceDate').value = today;
 
@@ -307,7 +323,7 @@
     }
     function render() {
       const badge = status => status === 'Paid' ? '<span class="badge bg-emerald-50 text-emerald-700">Paid</span>' : '<span class="badge bg-amber-50 text-amber-700">Pending</span>';
-      const invoiceRows = invoices.map(invoice => `<tr class="border-b border-slate-50 text-xs"><td class="py-3 font-semibold">${escapeHtml(invoice.number)}</td><td class="py-3">${escapeHtml(invoice.client)}</td><td class="py-3 text-slate-500">${escapeHtml(invoice.date)}</td><td class="py-3 font-semibold">${money(invoice.total)}</td><td class="py-3">${badge(invoice.status)}</td><td class="py-3"><button class="text-[10px] font-semibold text-[#9a743e] hover:underline" data-invoice="${escapeHtml(invoice.number)}">View</button> <button class="ml-2 text-[10px] font-semibold text-slate-400 hover:text-emerald-700" data-paid="${escapeHtml(invoice.number)}">${invoice.status === 'Paid' ? 'Mark pending' : 'Mark paid'}</button></td></tr>`).join('');
+      const invoiceRows = invoices.map(invoice => `<tr class="border-b border-slate-50 text-xs"><td class="py-3 font-semibold">${escapeHtml(invoice.number)}</td><td class="py-3">${escapeHtml(invoice.client)}</td><td class="py-3 text-slate-500">${escapeHtml(invoice.date)}</td><td class="py-3 font-semibold">${money(invoice.total)}</td><td class="py-3">${badge(invoice.status)}</td><td class="py-3 whitespace-nowrap"><button class="text-[10px] font-semibold text-[#9a743e] hover:underline" data-invoice="${escapeHtml(invoice.number)}">View</button> <button class="ml-2 text-[10px] font-semibold text-slate-400 hover:text-emerald-700" data-paid="${escapeHtml(invoice.number)}">${invoice.status === 'Paid' ? 'Mark pending' : 'Mark paid'}</button> <button class="ml-2 text-[10px] font-semibold text-red-500 hover:text-red-700" data-delete-invoice="${escapeHtml(invoice.number)}">Delete</button></td></tr>`).join('');
       document.getElementById('invoiceTable').innerHTML = invoiceRows;
       document.getElementById('dashboardInvoices').innerHTML = invoiceRows;
       document.getElementById('invoiceEmpty').classList.toggle('hidden', invoices.length > 0);
@@ -319,7 +335,7 @@
       document.getElementById('bookingMetric').textContent = invoices.length;
       document.getElementById('pendingMetric').textContent = money(pending.reduce((sum, item) => sum + item.total, 0));
       document.getElementById('pendingCount').textContent = `${pending.length} awaiting payment`;
-      const bookings = invoices.map(item => `<tr class="border-b border-slate-50 text-xs"><td class="py-3 font-semibold">${escapeHtml(item.number)}</td><td>${escapeHtml(item.client)}</td><td>${escapeHtml(item.items.map(line => line.description).join(', '))}</td><td>${escapeHtml(item.date)}</td><td>${money(item.total)}</td><td>${badge(item.status)}</td></tr>`).join('');
+      const bookings = invoices.map(item => `<tr class="border-b border-slate-50 text-xs"><td class="py-3 font-semibold">${escapeHtml(item.number)}</td><td>${escapeHtml(item.client)}</td><td>${escapeHtml(item.items.map(line => line.description).join(', '))}</td><td>${escapeHtml(item.date)}</td><td>${money(item.total)}</td><td>${badge(item.status)}</td><td><button class="text-[10px] font-semibold text-red-500 hover:text-red-700" data-delete-invoice="${escapeHtml(item.number)}">Delete</button></td></tr>`).join('');
       document.getElementById('bookingTable').innerHTML = bookings;
       document.getElementById('bookingEmpty').classList.toggle('hidden', invoices.length > 0);
       const clientSelect = document.getElementById('clientSelect');
@@ -358,7 +374,7 @@
       const totals = calculate();
       if (!totals.items.length || totals.items.some(item => !item.description || item.qty <= 0)) { alert('Add at least one service with a description and a quantity greater than zero.'); return; }
       const invoice = {
-        number: `TK-${new Date().getFullYear()}-${String(++invoiceCounter).padStart(3, '0')}`,
+        number: `TK-${invoiceYear}-${String(invoiceCounter + 1).padStart(3, '0')}`,
         date: document.getElementById('invoiceDate').value,
         client: document.getElementById('clientName').value.trim(),
         phone: document.getElementById('clientPhone').value.trim(),
@@ -369,9 +385,12 @@
         ...totals,
         status: 'Pending'
       };
+      try { saveStore(invoiceCounterKey, invoiceCounter + 1); }
+      catch (error) { return; }
+      invoiceCounter++;
       invoices.unshift(invoice);
       try { saveStore(STORAGE.invoices, invoices); }
-      catch (error) { invoices.shift(); invoiceCounter--; return; }
+      catch (error) { invoices.shift(); return; }
 
       // Send data to Google Sheets via Apps Script URL
       syncToGoogleSheet(invoice);
@@ -432,15 +451,36 @@
           render();
         }
       }
+      const deleteInvoiceButton = event.target.closest('[data-delete-invoice]');
+      if (deleteInvoiceButton) {
+        const invoiceNumber = deleteInvoiceButton.dataset.deleteInvoice;
+        const invoice = invoices.find(item => item.number === invoiceNumber);
+        if (!invoice || !window.confirm(`Delete invoice ${invoiceNumber} from this browser? This cannot be undone here, and it will not delete any Google Sheets row.`)) return;
+        const previousInvoices = invoices;
+        invoices = invoices.filter(item => item.number !== invoiceNumber);
+        try { saveStore(STORAGE.invoices, invoices); }
+        catch (error) { invoices = previousInvoices; return; }
+        if (document.getElementById('previewNumber').textContent === invoiceNumber) {
+          document.getElementById('invoiceForm').reset();
+          document.getElementById('invoiceDate').value = today;
+          document.getElementById('itemRows').innerHTML = '';
+          addItem();
+          document.getElementById('previewNumber').textContent = `TK-${invoiceYear}-${String(invoiceCounter + 1).padStart(3, '0')}`;
+        }
+        render();
+      }
       const deleteButton = event.target.closest('[data-client]');
       if (deleteButton) {
-        const client = clients.splice(Number(deleteButton.dataset.client), 1)[0];
-        try { saveStore(STORAGE.clients, clients); } catch (error) { clients.splice(Number(deleteButton.dataset.client), 0, client); return; }
+        const clientIndex = Number(deleteButton.dataset.client);
+        const client = clients[clientIndex];
+        if (!client || !window.confirm(`Delete saved client "${client.name}"? Existing invoices will not be changed.`)) return;
+        clients.splice(clientIndex, 1);
+        try { saveStore(STORAGE.clients, clients); } catch (error) { clients.splice(clientIndex, 0, client); return; }
         render();
       }
     });
     addItem();
-    document.getElementById('previewNumber').textContent = `TK-${new Date().getFullYear()}-${String(invoiceCounter + 1).padStart(3, '0')}`;
+    document.getElementById('previewNumber').textContent = `TK-${invoiceYear}-${String(invoiceCounter + 1).padStart(3, '0')}`;
     render();
   </script>
 </body>
