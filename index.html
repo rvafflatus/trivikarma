@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#101b2c">
+  <meta name="description" content="Thoughtfully planned journeys, seamless flight bookings, visas and travel insurance from Trivikarma Overseas LLP, Ahmedabad.">
+  <title>Trivikarma Overseas | Your World, Our Wings</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { theme: { extend: { colors: { ink: '#101b2c', gold: '#d8ad67', cream: '#f7f5f0' }, fontFamily: { sans: ['DM Sans', 'sans-serif'], display: ['Cormorant Garamond', 'serif'] } } } };
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <style>
+    :root { color-scheme: dark; scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; background: #101b2c; }
+    .serif { font-family: 'Cormorant Garamond', serif; }
+    .hero-image { background-image: linear-gradient(90deg, rgba(10,18,31,.92) 0%, rgba(10,18,31,.72) 42%, rgba(10,18,31,.12) 100%), url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=2200&q=85'); background-size: cover; background-position: center 54%; }
+    .glass { background: rgba(255,255,255,.075); border: 1px solid rgba(255,255,255,.13); backdrop-filter: blur(18px); }
+    .service-card { transition: transform .3s ease, border-color .3s ease, background .3s ease; }
+    .service-card:hover { transform: translateY(-7px); border-color: rgba(216,173,103,.55); background: rgba(255,255,255,.09); }
+    .partner { filter: grayscale(1); opacity: .7; transition: .2s ease; }
+    .partner:hover { filter: grayscale(0); opacity: 1; }
+    input, select, textarea { color-scheme: light; }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; } }
+  </style>
+</head>
+<body class="text-white antialiased">
+  <header class="absolute inset-x-0 top-0 z-30">
+    <div class="mx-auto flex max-w-7xl items-center justify-between px-5 py-5 lg:px-8">
+      <a href="#" class="flex items-center gap-3" aria-label="Trivikarma Overseas home">
+        <span class="flex h-11 w-11 items-center justify-center rounded-full border border-gold/70 text-gold"><i class="fa-solid fa-compass text-lg"></i></span>
+        <span><span class="block text-xs font-bold tracking-[.19em]">TRIVIKARMA</span><span class="mt-1 block text-[9px] tracking-[.22em] text-white/60">OVERSEAS LLP</span></span>
+      </a>
+      <nav class="hidden items-center gap-8 text-sm text-white/80 lg:flex" aria-label="Main navigation">
+        <a class="hover:text-gold" href="#services">Services</a><a class="hover:text-gold" href="#airlines">Airlines</a><a class="hover:text-gold" href="#partners">Partners</a><a class="hover:text-gold" href="#contact">Contact</a>
+        <a href="admin.html" class="rounded-full border border-gold/70 px-5 py-2.5 text-xs font-semibold tracking-wide text-gold transition hover:bg-gold hover:text-ink"><i class="fa-solid fa-lock mr-2"></i>Admin Portal</a>
+      </nav>
+      <button id="menuToggle" class="rounded-lg border border-white/20 px-3 py-2 lg:hidden" aria-label="Open navigation" aria-expanded="false"><i class="fa-solid fa-bars"></i></button>
+    </div>
+    <nav id="mobileMenu" class="mx-4 hidden rounded-2xl border border-white/10 bg-ink/95 p-5 backdrop-blur-xl lg:hidden" aria-label="Mobile navigation">
+      <div class="grid gap-4 text-sm"><a href="#services">Services</a><a href="#airlines">Airlines</a><a href="#partners">Partners</a><a href="#contact">Contact</a><a href="admin.html" class="text-gold">Admin Portal <i class="fa-solid fa-arrow-up-right-from-square ml-1"></i></a></div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero-image relative flex min-h-[760px] items-center overflow-hidden pt-24 md:min-h-[820px]">
+      <div class="absolute inset-0 bg-gradient-to-t from-ink via-transparent to-ink/20"></div>
+      <div class="relative mx-auto grid w-full max-w-7xl items-center gap-14 px-5 pb-16 pt-12 lg:grid-cols-[1.1fr_.7fr] lg:px-8">
+        <div class="max-w-3xl">
+          <div class="mb-7 inline-flex items-center gap-3 text-[10px] font-semibold uppercase tracking-[.26em] text-gold"><span class="h-px w-9 bg-gold"></span> Ahmedabad · Worldwide</div>
+          <h1 class="serif max-w-3xl text-6xl font-medium leading-[.94] tracking-tight sm:text-7xl lg:text-[92px]">The world,<br><em class="font-normal text-gold">beautifully</em><br>within reach.</h1>
+          <p class="mt-7 max-w-xl text-sm leading-7 text-white/75 sm:text-base">From a seamless flight to the journey of a lifetime, we take care of every detail. Your next chapter starts here.</p>
+          <div class="mt-9 flex flex-wrap gap-3">
+            <a href="tel:+919924100211" class="rounded-full bg-gold px-6 py-3.5 text-xs font-bold tracking-wide text-ink transition hover:bg-white"><i class="fa-solid fa-phone mr-2"></i>+91 99241 00211</a>
+            <a href="mailto:support@trivikarma.com" class="glass rounded-full px-6 py-3.5 text-xs font-semibold transition hover:border-gold/70"><i class="fa-regular fa-envelope mr-2 text-gold"></i>Write to our team</a>
+          </div>
+          <div class="mt-14 flex items-center gap-5 text-xs text-white/55"><span class="flex -space-x-2"><span class="h-8 w-8 rounded-full border-2 border-ink bg-[#d7bda0]"></span><span class="h-8 w-8 rounded-full border-2 border-ink bg-[#b9c9c4]"></span><span class="h-8 w-8 rounded-full border-2 border-ink bg-[#c4b4d2]"></span></span><span><strong class="text-white">Your trusted travel desk</strong><br>Personal service, every step of the way</span></div>
+        </div>
+        <div class="glass hidden rounded-3xl p-7 lg:block">
+          <span class="text-[10px] font-semibold uppercase tracking-[.22em] text-gold">A better way to go</span>
+          <h2 class="serif mt-4 text-4xl">Travel, taken care of.</h2>
+          <div class="mt-8 space-y-5">
+            <div class="flex gap-4"><i class="fa-solid fa-plane mt-1 text-gold"></i><div><h3 class="text-sm font-semibold">Flights made effortless</h3><p class="mt-1 text-xs leading-5 text-white/55">Thoughtful itineraries and fares that make sense.</p></div></div>
+            <div class="flex gap-4"><i class="fa-solid fa-passport mt-1 text-gold"></i><div><h3 class="text-sm font-semibold">Guidance beyond borders</h3><p class="mt-1 text-xs leading-5 text-white/55">Visa and passport support, with a human touch.</p></div></div>
+            <div class="flex gap-4"><i class="fa-solid fa-shield-heart mt-1 text-gold"></i><div><h3 class="text-sm font-semibold">Confidence to explore</h3><p class="mt-1 text-xs leading-5 text-white/55">Cover and care for the unexpected.</p></div></div>
+          </div>
+          <a href="#services" class="mt-8 inline-flex items-center gap-3 text-xs font-semibold text-gold">Discover our services <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+      </div>
+      <div class="absolute bottom-8 right-8 hidden items-center gap-3 text-[9px] uppercase tracking-[.25em] text-white/50 md:flex"><span class="h-px w-10 bg-gold"></span> Let your story take flight</div>
+    </section>
+
+    <section id="services" class="bg-cream px-5 py-24 text-ink md:py-28">
+      <div class="mx-auto max-w-7xl">
+        <div class="flex flex-col justify-between gap-5 md:flex-row md:items-end">
+          <div><p class="text-[10px] font-bold uppercase tracking-[.25em] text-[#a67c3c]">Consider every detail handled</p><h2 class="serif mt-3 text-5xl leading-none sm:text-6xl">Journeys, made personal.</h2></div>
+          <p class="max-w-md text-sm leading-6 text-slate-600">More than bookings. We're your travel partner before take-off, throughout the journey, and all the way home.</p>
+        </div>
+        <div class="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <article class="group rounded-2xl border border-slate-200 bg-white p-6 transition hover:-translate-y-1 hover:shadow-xl"><span class="flex h-12 w-12 items-center justify-center rounded-full bg-[#f7f0e3] text-lg text-[#aa8248]"><i class="fa-solid fa-plane-departure"></i></span><h3 class="mt-6 text-base font-semibold">Flight bookings</h3><p class="mt-2 text-xs leading-6 text-slate-500">Domestic and international flights, thoughtfully compared and booked.</p><a href="#contact" class="mt-5 inline-block text-xs font-bold text-[#9b7138]">Plan your flight <i class="fa-solid fa-arrow-right ml-1 transition group-hover:translate-x-1"></i></a></article>
+          <article class="group rounded-2xl border border-slate-200 bg-white p-6 transition hover:-translate-y-1 hover:shadow-xl"><span class="flex h-12 w-12 items-center justify-center rounded-full bg-[#f7f0e3] text-lg text-[#aa8248]"><i class="fa-solid fa-passport"></i></span><h3 class="mt-6 text-base font-semibold">Visas & passports</h3><p class="mt-2 text-xs leading-6 text-slate-500">Clear, caring assistance with tourist and business visa applications.</p><a href="#contact" class="mt-5 inline-block text-xs font-bold text-[#9b7138]">Get expert guidance <i class="fa-solid fa-arrow-right ml-1 transition group-hover:translate-x-1"></i></a></article>
+          <article class="group rounded-2xl border border-slate-200 bg-white p-6 transition hover:-translate-y-1 hover:shadow-xl"><span class="flex h-12 w-12 items-center justify-center rounded-full bg-[#f7f0e3] text-lg text-[#aa8248]"><i class="fa-solid fa-shield-heart"></i></span><h3 class="mt-6 text-base font-semibold">Travel insurance</h3><p class="mt-2 text-xs leading-6 text-slate-500">Travel protection options from trusted, established insurance providers.</p><a href="#partners" class="mt-5 inline-block text-xs font-bold text-[#9b7138]">Explore cover <i class="fa-solid fa-arrow-right ml-1 transition group-hover:translate-x-1"></i></a></article>
+          <article class="group rounded-2xl border border-slate-200 bg-white p-6 transition hover:-translate-y-1 hover:shadow-xl"><span class="flex h-12 w-12 items-center justify-center rounded-full bg-[#f7f0e3] text-lg text-[#aa8248]"><i class="fa-solid fa-hotel"></i></span><h3 class="mt-6 text-base font-semibold">Hotels & escapes</h3><p class="mt-2 text-xs leading-6 text-slate-500">Handpicked stays and holiday packages for the way you love to travel.</p><a href="#contact" class="mt-5 inline-block text-xs font-bold text-[#9b7138]">Find your escape <i class="fa-solid fa-arrow-right ml-1 transition group-hover:translate-x-1"></i></a></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="relative overflow-hidden px-5 py-24 md:py-28">
+      <div class="absolute -right-36 -top-40 h-96 w-96 rounded-full bg-amber-400/5 blur-3xl"></div>
+      <div class="relative mx-auto grid max-w-7xl gap-12 lg:grid-cols-[.8fr_1.2fr] lg:items-center">
+        <div><p class="text-[10px] font-bold uppercase tracking-[.25em] text-gold">A little more personal</p><h2 class="serif mt-4 text-5xl leading-[.98] sm:text-6xl">Good journeys<br>begin with <em class="text-gold">a conversation.</em></h2><p class="mt-5 max-w-md text-sm leading-7 text-white/60">Tell us what you have in mind. A real person from our Ahmedabad team will be in touch to help make it happen.</p><div class="mt-8 space-y-3 text-sm text-white/75"><p><i class="fa-solid fa-phone w-6 text-gold"></i><a href="tel:+919924100211" class="hover:text-gold">+91 99241 00211</a></p><p><i class="fa-regular fa-envelope w-6 text-gold"></i><a href="mailto:support@trivikarma.com" class="hover:text-gold">support@trivikarma.com</a></p></div></div>
+        <form id="enquiryForm" class="rounded-3xl border border-white/10 bg-white/[.045] p-6 sm:p-9">
+          <div class="grid gap-5 sm:grid-cols-2">
+            <label class="text-xs font-medium text-white/70">Your name<input required name="name" autocomplete="name" class="mt-2 w-full rounded-xl border border-white/10 bg-white/[.06] px-4 py-3.5 text-sm text-white outline-none placeholder:text-white/30 focus:border-gold" placeholder="How should we address you?"></label>
+            <label class="text-xs font-medium text-white/70">Phone number<input required name="phone" type="tel" autocomplete="tel" pattern="[0-9+() -]{8,20}" class="mt-2 w-full rounded-xl border border-white/10 bg-white/[.06] px-4 py-3.5 text-sm text-white outline-none placeholder:text-white/30 focus:border-gold" placeholder="+91 00000 00000"></label>
+            <label class="text-xs font-medium text-white/70 sm:col-span-2">I'm interested in<select required name="service" class="mt-2 w-full rounded-xl border border-white/10 bg-[#1a2738] px-4 py-3.5 text-sm text-white outline-none focus:border-gold"><option value="" disabled selected>Select a service</option><option>Flight Tickets</option><option>Tourist Visa</option><option>Travel Insurance</option><option>Hotel Packages</option></select></label>
+            <label class="text-xs font-medium text-white/70 sm:col-span-2">A few details <span class="text-white/35">(optional)</span><textarea name="message" rows="3" class="mt-2 w-full resize-y rounded-xl border border-white/10 bg-white/[.06] px-4 py-3.5 text-sm text-white outline-none placeholder:text-white/30 focus:border-gold" placeholder="Where would you like to go?"></textarea></label>
+          </div>
+          <button type="submit" class="mt-6 flex w-full items-center justify-center gap-2 rounded-xl bg-gold px-5 py-4 text-xs font-bold tracking-wide text-ink transition hover:bg-white"><i class="fa-brands fa-whatsapp text-base"></i>Send enquiry on WhatsApp</button>
+          <p class="mt-3 text-center text-[10px] text-white/35">Your details open directly in WhatsApp. We never submit this form to a server.</p>
+        </form>
+      </div>
+    </section>
+
+    <section id="airlines" class="bg-[#0d1726] px-5 py-16">
+      <div class="mx-auto max-w-7xl text-center"><p class="text-[10px] font-bold uppercase tracking-[.25em] text-gold">A world of connections</p><h2 class="serif mt-3 text-4xl">The airlines that take you there.</h2>
+        <div class="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+          <div class="partner glass rounded-xl px-4 py-5 text-sm font-bold tracking-wide">EMIRATES</div><div class="partner glass rounded-xl px-4 py-5 text-sm font-bold">AIR INDIA</div><div class="partner glass rounded-xl px-4 py-5 text-sm font-bold italic">IndiGo</div><div class="partner glass rounded-xl px-4 py-5 text-sm font-bold tracking-wide">ETIHAD</div><div class="partner glass rounded-xl px-4 py-5 text-sm font-bold">QATAR AIRWAYS</div><div class="partner glass rounded-xl px-4 py-5 text-sm font-bold">SINGAPORE AIR</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="partners" class="border-t border-white/5 px-5 py-16">
+      <div class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-8 md:flex-row"><div><p class="text-[10px] font-bold uppercase tracking-[.25em] text-gold">Travel with confidence</p><h2 class="serif mt-2 text-4xl">Protection you can trust.</h2></div><div class="flex flex-wrap justify-center gap-3 text-xs font-semibold text-white/65"><span class="glass rounded-full px-5 py-3">TATA AIG</span><span class="glass rounded-full px-5 py-3">HDFC ERGO</span><span class="glass rounded-full px-5 py-3">ICICI LOMBARD</span></div></div>
+    </section>
+  </main>
+  <footer id="contact" class="border-t border-white/10 bg-[#0b1421] px-5 py-12">
+    <div class="mx-auto grid max-w-7xl gap-8 md:grid-cols-[1.1fr_1fr_auto] md:items-center">
+      <div><a href="#" class="text-xs font-bold tracking-[.18em]">TRIVIKARMA OVERSEAS LLP</a><p class="mt-2 text-xs italic text-gold">Your World, Our Wings!</p></div>
+      <address class="text-xs not-italic leading-6 text-white/55"><i class="fa-solid fa-location-dot mr-2 text-gold"></i>1004, J B Tower, Opp. Door Darshan,<br>Drive-in Road, Ahmedabad - 380054<br><a class="hover:text-gold" href="mailto:support@trivikarma.com">support@trivikarma.com</a> · <a class="hover:text-gold" href="tel:+919924100211">+91 99241 00211</a></address>
+      <div class="text-xs text-white/45 md:text-right"><p>Managed by <span class="text-white/75">Maulik Shah</span></p><p class="mt-2">© <span id="year"></span> Trivikarma Overseas LLP</p><a href="admin.html" class="mt-2 inline-block text-gold/70 hover:text-gold"><i class="fa-solid fa-lock mr-1"></i>Admin portal</a></div>
+    </div>
+  </footer>
+  <script>
+    const menuToggle = document.getElementById('menuToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+    menuToggle.addEventListener('click', () => {
+      const isOpen = !mobileMenu.classList.contains('hidden');
+      mobileMenu.classList.toggle('hidden', isOpen);
+      menuToggle.setAttribute('aria-expanded', String(!isOpen));
+      menuToggle.innerHTML = isOpen ? '<i class="fa-solid fa-bars"></i>' : '<i class="fa-solid fa-xmark"></i>';
+    });
+    mobileMenu.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
+      mobileMenu.classList.add('hidden');
+      menuToggle.setAttribute('aria-expanded', 'false');
+      menuToggle.innerHTML = '<i class="fa-solid fa-bars"></i>';
+    }));
+    document.getElementById('year').textContent = new Date().getFullYear();
+    document.getElementById('enquiryForm').addEventListener('submit', event => {
+      event.preventDefault();
+      const data = new FormData(event.currentTarget);
+      const message = [
+        'Hello Trivikarma Overseas, I would like to enquire.',
+        `Name: ${data.get('name')}`,
+        `Phone: ${data.get('phone')}`,
+        `Service: ${data.get('service')}`,
+        data.get('message') ? `Message: ${data.get('message')}` : ''
+      ].filter(Boolean).join('\n');
+      window.location.href = `https://wa.me/919924100211?text=${encodeURIComponent(message)}`;
+    });
+  </script>
+</body>
+</html>

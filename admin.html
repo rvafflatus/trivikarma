@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f5f6f8">
+  <title>Admin Portal | Trivikarma Overseas</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <style>
+    * { box-sizing: border-box; }
+    body { font-family: 'DM Sans', sans-serif; background: #f5f6f8; color: #202a39; }
+    .display { font-family: 'Manrope', sans-serif; }
+    .side-link { transition: .2s ease; }
+    .side-link:hover, .side-link.active { background: #1d2b3e; color: #e5bd78; }
+    .side-link.active { box-shadow: inset 3px 0 #d9ad67; }
+    .card { border: 1px solid #e8ebef; border-radius: 15px; background: #fff; box-shadow: 0 2px 8px rgba(27,39,55,.025); }
+    .field { width: 100%; border: 1px solid #e2e6eb; border-radius: 9px; background: white; padding: 10px 12px; color: #263345; font: inherit; font-size: 13px; outline: none; }
+    .field:focus { border-color: #b98c4b; box-shadow: 0 0 0 3px rgba(217,173,103,.14); }
+    .label { display: block; margin-bottom: 6px; color: #687486; font-size: 11px; font-weight: 600; }
+    .btn-primary { background: #17263a; color: #fff; transition: .2s ease; }
+    .btn-primary:hover { background: #253b57; }
+    .btn-gold { background: #d8ad67; color: #182337; transition: .2s ease; }
+    .btn-gold:hover { background: #e5c28a; }
+    .badge { display: inline-flex; align-items: center; border-radius: 999px; padding: 5px 9px; font-size: 10px; font-weight: 700; }
+    .view { display: none; }
+    .view.active { display: block; }
+    .invoice-sheet { width: 100%; max-width: 800px; margin: auto; padding: 42px; background: white; color: #1d2938; }
+    .table-wrap { overflow-x: auto; }
+    @media(max-width: 767px) {
+      #sidebar { position: fixed; z-index: 40; inset: 0 auto 0 0; width: 260px; transform: translateX(-105%); transition: transform .25s ease; }
+      #sidebar.open { transform: translateX(0); }
+      #sidebarShade.show { display: block; }
+      .invoice-sheet { padding: 20px; }
+    }
+    @media print {
+      body * { visibility: hidden !important; }
+      #invoicePreview, #invoicePreview * { visibility: visible !important; }
+      #invoicePreview { position: absolute !important; inset: 0 !important; display: block !important; margin: 0 !important; padding: 0 !important; border: 0 !important; box-shadow: none !important; background: white !important; }
+      .invoice-sheet { max-width: none; min-height: 100vh; padding: 12mm; }
+      .no-print { display: none !important; }
+    }
+  </style>
+</head>
+<body class="min-h-screen">
+  <div id="sidebarShade" class="fixed inset-0 z-30 hidden bg-slate-950/40 md:hidden"></div>
+  <aside id="sidebar" class="fixed inset-y-0 left-0 z-40 flex w-[250px] flex-col bg-[#101b2c] px-4 py-5 text-white">
+    <div class="flex items-center justify-between px-2">
+      <a href="index.html" class="flex items-center gap-3"><span class="flex h-10 w-10 items-center justify-center rounded-full border border-[#d8ad67]/70 text-[#d8ad67]"><i class="fa-solid fa-compass"></i></span><span><strong class="block text-[11px] tracking-[.14em]">TRIVIKARMA</strong><small class="mt-1 block text-[9px] tracking-[.18em] text-white/50">OVERSEAS LLP</small></span></a>
+      <button id="closeSidebar" class="text-white/50 md:hidden" aria-label="Close menu"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <p class="mb-3 mt-10 px-3 text-[9px] font-bold uppercase tracking-[.22em] text-white/35">Workspace</p>
+    <nav class="space-y-1" aria-label="Admin navigation">
+      <button class="side-link active flex w-full items-center gap-3 rounded-lg px-3 py-3 text-left text-xs text-white/65" data-view="dashboard"><i class="fa-solid fa-chart-pie w-4"></i>Dashboard</button>
+      <button class="side-link flex w-full items-center gap-3 rounded-lg px-3 py-3 text-left text-xs text-white/65" data-view="invoices"><i class="fa-regular fa-file-lines w-4"></i>Invoices</button>
+      <button class="side-link flex w-full items-center gap-3 rounded-lg px-3 py-3 text-left text-xs text-white/65" data-view="clients"><i class="fa-solid fa-users w-4"></i>Clients / Parties</button>
+      <button class="side-link flex w-full items-center gap-3 rounded-lg px-3 py-3 text-left text-xs text-white/65" data-view="bookings"><i class="fa-solid fa-suitcase-rolling w-4"></i>Bookings</button>
+    </nav>
+    <div class="mt-auto rounded-xl border border-white/10 bg-white/[.04] p-3 text-[10px] leading-5 text-white/45"><i class="fa-solid fa-circle-info mr-1 text-[#d8ad67]"></i> Local demo portal. Data is saved only in this browser.</div>
+    <a href="index.html" class="mt-4 flex items-center gap-3 px-3 py-2 text-xs text-white/55 hover:text-[#d8ad67]"><i class="fa-solid fa-arrow-left w-4"></i>Back to website</a>
+  </aside>
+
+  <div class="min-h-screen md:pl-[250px]">
+    <header class="sticky top-0 z-20 flex h-[68px] items-center justify-between border-b border-slate-200/80 bg-white/90 px-4 backdrop-blur-md sm:px-7">
+      <div class="flex items-center gap-3"><button id="openSidebar" class="rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-600 md:hidden" aria-label="Open menu"><i class="fa-solid fa-bars"></i></button><div><p class="display text-[13px] font-bold">Accounting & Billing</p><p class="hidden text-[10px] text-slate-400 sm:block">Good day, Maulik. Here's your business at a glance.</p></div></div>
+      <div class="flex items-center gap-3"><span class="hidden text-right sm:block"><strong class="block text-xs">Maulik Shah</strong><small class="text-[10px] text-slate-400">Administrator</small></span><span class="flex h-9 w-9 items-center justify-center rounded-full bg-[#f3ead9] text-xs font-bold text-[#8e6a36]">MS</span></div>
+    </header>
+    <main class="mx-auto max-w-[1450px] px-4 py-6 sm:px-7 sm:py-8">
+      <section id="dashboard" class="view active">
+        <div class="mb-6 flex flex-wrap items-end justify-between gap-4"><div><p class="text-[10px] font-bold uppercase tracking-[.18em] text-[#a47b40]">Overview</p><h1 class="display mt-1 text-2xl font-extrabold tracking-tight">Dashboard</h1></div><button class="btn-primary rounded-lg px-4 py-2.5 text-xs font-semibold" data-go="invoices"><i class="fa-solid fa-plus mr-2"></i>Create invoice</button></div>
+        <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+          <article class="card p-5"><div class="flex items-center justify-between"><span class="text-xs text-slate-500">Total revenue</span><span class="flex h-9 w-9 items-center justify-center rounded-lg bg-emerald-50 text-emerald-700"><i class="fa-solid fa-indian-rupee-sign"></i></span></div><p id="revenueMetric" class="display mt-4 text-2xl font-extrabold">₹0</p><p class="mt-1 text-[10px] text-slate-400">From paid invoices</p></article>
+          <article class="card p-5"><div class="flex items-center justify-between"><span class="text-xs text-slate-500">Total bookings</span><span class="flex h-9 w-9 items-center justify-center rounded-lg bg-blue-50 text-blue-700"><i class="fa-solid fa-suitcase-rolling"></i></span></div><p id="bookingMetric" class="display mt-4 text-2xl font-extrabold">0</p><p class="mt-1 text-[10px] text-slate-400">Invoices issued</p></article>
+          <article class="card p-5 sm:col-span-2 xl:col-span-1"><div class="flex items-center justify-between"><span class="text-xs text-slate-500">Pending invoices</span><span class="flex h-9 w-9 items-center justify-center rounded-lg bg-amber-50 text-amber-700"><i class="fa-regular fa-clock"></i></span></div><p id="pendingMetric" class="display mt-4 text-2xl font-extrabold">₹0</p><p id="pendingCount" class="mt-1 text-[10px] text-slate-400">0 awaiting payment</p></article>
+        </div>
+        <div class="card mt-6 p-5 sm:p-6">
+          <div class="mb-5 flex items-center justify-between"><div><h2 class="display text-sm font-bold">Recent invoices</h2><p class="mt-1 text-[10px] text-slate-400">Your latest billing activity</p></div><button class="text-xs font-semibold text-[#9a743e] hover:underline" data-go="invoices">View all <i class="fa-solid fa-arrow-right ml-1"></i></button></div>
+          <div class="table-wrap"><table class="w-full min-w-[650px] text-left"><thead><tr class="border-b border-slate-100 text-[10px] uppercase tracking-wide text-slate-400"><th class="pb-3 font-semibold">Invoice</th><th class="pb-3 font-semibold">Client</th><th class="pb-3 font-semibold">Date</th><th class="pb-3 font-semibold">Amount</th><th class="pb-3 font-semibold">Status</th><th class="pb-3"></th></tr></thead><tbody id="dashboardInvoices"></tbody></table></div>
+          <p id="dashboardEmpty" class="hidden py-10 text-center text-xs text-slate-400">No invoices yet. Create your first invoice to get started.</p>
+        </div>
+      </section>
+
+      <section id="invoices" class="view">
+        <div class="mb-6 flex flex-wrap items-end justify-between gap-4"><div><p class="text-[10px] font-bold uppercase tracking-[.18em] text-[#a47b40]">Billing workspace</p><h1 class="display mt-1 text-2xl font-extrabold tracking-tight">Invoices</h1></div><button id="newInvoice" class="btn-primary rounded-lg px-4 py-2.5 text-xs font-semibold"><i class="fa-solid fa-plus mr-2"></i>New invoice</button></div>
+        <div class="grid items-start gap-5 xl:grid-cols-[minmax(0,1.15fr)_minmax(340px,.85fr)]">
+          <div class="card p-5 sm:p-6">
+            <div class="mb-5 flex items-center gap-3"><span class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#f7f1e7] text-[#a47b40]"><i class="fa-solid fa-file-invoice"></i></span><div><h2 class="display text-sm font-bold">Create GST invoice</h2><p class="text-[10px] text-slate-400">Enter client and service details</p></div></div>
+            <form id="invoiceForm">
+              <div class="grid gap-4 sm:grid-cols-2">
+                <label><span class="label">Client / party</span><select id="clientSelect" class="field"><option value="">Select a saved client or enter details</option></select></label>
+                <label><span class="label">Invoice date</span><input id="invoiceDate" required type="date" class="field"></label>
+                <label><span class="label">Client name *</span><input id="clientName" required class="field" placeholder="Full name or business"></label>
+                <label><span class="label">Phone number</span><input id="clientPhone" type="tel" class="field" placeholder="+91"></label>
+                <label class="sm:col-span-2"><span class="label">Billing address</span><textarea id="clientAddress" rows="2" class="field resize-y" placeholder="Street, city, state and PIN"></textarea></label>
+                <label><span class="label">GSTIN <span class="font-normal">(optional)</span></span><input id="clientGstin" maxlength="15" class="field uppercase" placeholder="15-character GSTIN"></label>
+                <label><span class="label">Place of supply</span><select id="supplyState" class="field"><option value="Gujarat">Gujarat</option><option value="Andhra Pradesh">Andhra Pradesh</option><option value="Delhi">Delhi</option><option value="Karnataka">Karnataka</option><option value="Maharashtra">Maharashtra</option><option value="Rajasthan">Rajasthan</option><option value="Tamil Nadu">Tamil Nadu</option><option value="Uttar Pradesh">Uttar Pradesh</option><option value="West Bengal">West Bengal</option><option value="Other">Other state / territory</option></select></label>
+                <label><span class="label">Tax treatment</span><select id="taxRate" class="field"><option value="0">No GST · 0%</option><option value="5">GST · 5%</option><option value="12">GST · 12%</option><option value="18" selected>GST · 18%</option><option value="28">GST · 28%</option></select></label>
+                <label><span class="label">Seller state</span><input class="field" value="Gujarat" disabled></label>
+              </div>
+              <div class="mb-3 mt-6 flex items-center justify-between"><h3 class="text-xs font-bold">Services & charges</h3><button type="button" id="addItem" class="rounded-lg border border-slate-200 px-3 py-2 text-[10px] font-semibold text-slate-600 hover:bg-slate-50"><i class="fa-solid fa-plus mr-1"></i>Add item</button></div>
+              <div class="table-wrap"><table class="w-full min-w-[500px]"><thead><tr class="text-left text-[10px] text-slate-400"><th class="pb-2 font-semibold">Description</th><th class="w-24 pb-2 font-semibold">Qty</th><th class="w-32 pb-2 font-semibold">Rate (₹)</th><th class="w-24 pb-2 text-right font-semibold">Amount</th><th class="w-8"></th></tr></thead><tbody id="itemRows"></tbody></table></div>
+              <div class="mt-5 flex flex-col gap-5 border-t border-slate-100 pt-4 sm:flex-row sm:items-end sm:justify-between">
+                <label class="sm:w-1/2"><span class="label">Notes / booking reference</span><input id="invoiceNotes" class="field" placeholder="Optional"></label>
+                <div class="w-full space-y-2 sm:max-w-[230px]">
+                  <div class="flex justify-between text-xs text-slate-500"><span>Taxable value</span><span id="taxableDisplay">₹0.00</span></div>
+                  <div id="cgstLine" class="flex justify-between text-xs text-slate-500"><span>CGST (<span id="halfRate">9</span>%)</span><span id="cgstDisplay">₹0.00</span></div>
+                  <div id="sgstLine" class="flex justify-between text-xs text-slate-500"><span>SGST (<span id="halfRate2">9</span>%)</span><span id="sgstDisplay">₹0.00</span></div>
+                  <div id="igstLine" class="hidden flex justify-between text-xs text-slate-500"><span>IGST (<span id="fullRate">18</span>%)</span><span id="igstDisplay">₹0.00</span></div>
+                  <div class="flex justify-between border-t border-slate-200 pt-2 text-sm font-bold"><span>Total</span><span id="grandDisplay">₹0.00</span></div>
+                </div>
+              </div>
+              <div class="mt-5 flex flex-wrap gap-2"><button type="submit" class="btn-gold rounded-lg px-5 py-3 text-xs font-bold"><i class="fa-solid fa-file-circle-check mr-2"></i>Generate & save</button><button type="button" id="clearForm" class="rounded-lg border border-slate-200 px-4 py-3 text-xs font-semibold text-slate-500 hover:bg-slate-50">Clear form</button></div>
+            </form>
+          </div>
+          <div class="space-y-5">
+            <div id="invoicePreview" class="card overflow-hidden">
+              <div class="no-print flex items-center justify-between border-b border-slate-100 px-5 py-4"><div><h2 class="text-xs font-bold">Invoice preview</h2><p class="mt-1 text-[10px] text-slate-400">Print or save as PDF</p></div><button id="printInvoice" class="rounded-lg border border-slate-200 px-3 py-2 text-[10px] font-semibold text-slate-600 hover:bg-slate-50"><i class="fa-solid fa-print mr-1"></i>Print / PDF</button></div>
+              <div class="invoice-sheet">
+                <div class="flex items-start justify-between gap-3 border-b border-slate-200 pb-5"><div><div class="text-sm font-extrabold tracking-[.12em] text-[#17263a]">TRIVIKARMA</div><div class="text-[9px] tracking-[.18em] text-slate-500">OVERSEAS LLP</div><p class="mt-3 max-w-[235px] text-[9px] leading-4 text-slate-500">1004, J B Tower, Opp. Door Darshan, Drive-in Road, Ahmedabad - 380054<br>+91 99241 00211 · support@trivikarma.com</p></div><div class="text-right"><p class="text-lg font-bold tracking-wide">TAX INVOICE</p><p class="mt-2 text-[9px] text-slate-500">Invoice no. <strong id="previewNumber" class="text-slate-700">TK-2026-001</strong></p><p class="mt-1 text-[9px] text-slate-500">Date <strong id="previewDate" class="text-slate-700">—</strong></p></div></div>
+                <div class="grid grid-cols-2 gap-3 py-5 text-[9px]"><div><p class="font-bold uppercase tracking-wide text-slate-400">Bill to</p><p id="previewClient" class="mt-2 font-bold text-slate-700">Client name</p><p id="previewAddress" class="mt-1 leading-4 text-slate-500">Client address</p><p id="previewGstin" class="mt-1 text-slate-500"></p></div><div class="text-right"><p class="font-bold uppercase tracking-wide text-slate-400">Place of supply</p><p id="previewSupply" class="mt-2 font-semibold text-slate-700">Gujarat</p><p class="mt-2 text-slate-500">Seller state: Gujarat</p></div></div>
+                <table class="w-full text-[9px]"><thead><tr class="border-y border-slate-200 text-left text-slate-500"><th class="py-2">Description</th><th class="py-2 text-right">Qty</th><th class="py-2 text-right">Rate</th><th class="py-2 text-right">Amount</th></tr></thead><tbody id="previewItems"><tr><td class="py-2 text-slate-500">Service details will appear here</td><td class="text-right">—</td><td class="text-right">—</td><td class="text-right">₹0.00</td></tr></tbody></table>
+                <div class="ml-auto mt-4 max-w-[200px] space-y-1 text-[9px]"><div class="flex justify-between text-slate-500"><span>Taxable value</span><span id="previewTaxable">₹0.00</span></div><div id="previewCgstRow" class="flex justify-between text-slate-500"><span>CGST</span><span id="previewCgst">₹0.00</span></div><div id="previewSgstRow" class="flex justify-between text-slate-500"><span>SGST</span><span id="previewSgst">₹0.00</span></div><div id="previewIgstRow" class="hidden justify-between text-slate-500"><span>IGST</span><span id="previewIgst">₹0.00</span></div><div class="flex justify-between border-t border-slate-200 pt-2 text-xs font-bold"><span>Grand total</span><span id="previewGrand">₹0.00</span></div></div>
+                <p id="previewNotes" class="mt-4 hidden text-[9px] text-slate-500"></p>
+                <div class="mt-9 flex items-end justify-between gap-3"><p class="max-w-[200px] text-[8px] leading-4 text-slate-400">Thank you for choosing Trivikarma Overseas. Please contact us for any questions about this invoice.</p><div class="flex items-end gap-3"><svg class="h-[68px] w-[68px] shrink-0 text-[#9a743e]" viewBox="0 0 100 100" role="img" aria-label="Trivikarma company seal"><circle cx="50" cy="50" r="44" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="50" cy="50" r="36" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="2 2"/><text x="50" y="40" text-anchor="middle" font-size="8" font-weight="700" fill="currentColor">TRIVIKARMA</text><text x="50" y="57" text-anchor="middle" font-size="15" font-weight="700" fill="currentColor">TK</text><text x="50" y="69" text-anchor="middle" font-size="7" fill="currentColor">OVERSEAS LLP</text></svg><div class="min-w-[105px] text-center"><div class="mb-1 flex h-10 items-end justify-center border-b border-dashed border-slate-300 pb-1 text-[8px] text-slate-400">Signature</div><p class="text-[8px] font-semibold text-slate-600">For Trivikarma Overseas LLP</p><p class="mt-1 text-[8px] text-slate-400">Maulik Shah</p></div></div></div>
+              </div>
+              <div class="no-print border-t border-slate-100 px-5 py-3 text-[9px] text-slate-400">Use your browser’s print dialog and choose “Save as PDF”.</div>
+            </div>
+            <div class="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-[10px] leading-5 text-amber-900"><i class="fa-solid fa-circle-info mr-1"></i> This browser-only demo is not connected to a GST system. Confirm applicable tax treatment with your accountant before issuing invoices.</div>
+          </div>
+        </div>
+        <div class="card mt-6 p-5 sm:p-6"><div class="mb-4 flex items-center justify-between"><h2 class="display text-sm font-bold">Recent invoices</h2><span id="invoiceCountLabel" class="text-[10px] text-slate-400">0 invoices</span></div><div class="table-wrap"><table class="w-full min-w-[650px] text-left"><thead><tr class="border-b border-slate-100 text-[10px] uppercase tracking-wide text-slate-400"><th class="pb-3 font-semibold">Invoice</th><th class="pb-3 font-semibold">Client</th><th class="pb-3 font-semibold">Date</th><th class="pb-3 font-semibold">Amount</th><th class="pb-3 font-semibold">Status</th><th class="pb-3">Actions</th></tr></thead><tbody id="invoiceTable"></tbody></table></div><p id="invoiceEmpty" class="hidden py-8 text-center text-xs text-slate-400">No invoices created yet.</p></div>
+      </section>
+
+      <section id="clients" class="view">
+        <div class="mb-6 flex flex-wrap items-end justify-between gap-4"><div><p class="text-[10px] font-bold uppercase tracking-[.18em] text-[#a47b40]">Address book</p><h1 class="display mt-1 text-2xl font-extrabold">Clients / Parties</h1></div></div>
+        <div class="grid items-start gap-5 lg:grid-cols-[.8fr_1.2fr]">
+          <form id="clientForm" class="card p-5 sm:p-6"><h2 class="mb-5 text-sm font-bold">Add a client</h2><div class="space-y-4"><label><span class="label">Name *</span><input id="newClientName" required class="field" placeholder="Client or business name"></label><label><span class="label">Phone</span><input id="newClientPhone" class="field" type="tel" placeholder="+91"></label><label><span class="label">Address</span><textarea id="newClientAddress" class="field" rows="2"></textarea></label><label><span class="label">GSTIN</span><input id="newClientGstin" class="field uppercase" maxlength="15"></label><button class="btn-primary w-full rounded-lg px-4 py-3 text-xs font-semibold"><i class="fa-solid fa-user-plus mr-2"></i>Save client</button></div></form>
+          <div class="card p-5 sm:p-6"><h2 class="mb-4 text-sm font-bold">Saved clients</h2><div id="clientList" class="divide-y divide-slate-100"></div><p id="clientEmpty" class="py-8 text-center text-xs text-slate-400">No saved clients yet. Add a client to get started.</p></div>
+        </div>
+      </section>
+
+      <section id="bookings" class="view">
+        <div class="mb-6"><p class="text-[10px] font-bold uppercase tracking-[.18em] text-[#a47b40]">Travel activity</p><h1 class="display mt-1 text-2xl font-extrabold">Bookings</h1><p class="mt-2 text-xs text-slate-500">Bookings are represented by issued invoices in this local demo.</p></div>
+        <div class="card p-5 sm:p-6"><div class="table-wrap"><table class="w-full min-w-[650px] text-left"><thead><tr class="border-b border-slate-100 text-[10px] uppercase tracking-wide text-slate-400"><th class="pb-3">Booking / invoice</th><th class="pb-3">Client</th><th class="pb-3">Service</th><th class="pb-3">Date</th><th class="pb-3">Amount</th><th class="pb-3">Status</th></tr></thead><tbody id="bookingTable"></tbody></table></div><p id="bookingEmpty" class="hidden py-10 text-center text-xs text-slate-400">No bookings yet. Create an invoice to record a booking.</p></div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const STORAGE = { invoices: 'trivikarma.invoices.v1', clients: 'trivikarma.clients.v1' };
+    const money = value => new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(Number(value) || 0);
+    const roundMoney = value => Math.round((value + Number.EPSILON) * 100) / 100;
+    const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
+    const readStore = key => {
+      try {
+        const value = JSON.parse(localStorage.getItem(key) || '[]');
+        return Array.isArray(value) ? value : [];
+      } catch (error) {
+        console.error(`Unable to read ${key} from local storage.`, error);
+        return [];
+      }
+    };
+    let invoices = readStore(STORAGE.invoices);
+    let clients = readStore(STORAGE.clients);
+    let invoiceCounter = invoices.length;
+    const today = new Date().toISOString().slice(0, 10);
+    document.getElementById('invoiceDate').value = today;
+
+    function saveStore(key, value) {
+      try { localStorage.setItem(key, JSON.stringify(value)); }
+      catch (error) { alert('Could not save your data in this browser. Check available storage and try again.'); throw error; }
+    }
+    function currentItems() {
+      return [...document.querySelectorAll('.item-row')].map(row => ({
+        description: row.querySelector('.item-description').value.trim(),
+        qty: Math.max(0, Number(row.querySelector('.item-qty').value) || 0),
+        rate: Math.max(0, Number(row.querySelector('.item-rate').value) || 0)
+      })).filter(item => item.description || item.rate > 0);
+    }
+    function calculate() {
+      const items = currentItems();
+      const taxable = roundMoney(items.reduce((sum, item) => sum + item.qty * item.rate, 0));
+      const rate = Number(document.getElementById('taxRate').value);
+      const interState = document.getElementById('supplyState').value !== 'Gujarat';
+      const tax = roundMoney(taxable * rate / 100);
+      const half = rate / 2;
+      const cgst = interState ? 0 : roundMoney(tax / 2);
+      const sgst = interState ? 0 : tax - cgst;
+      const igst = interState ? tax : 0;
+      const total = roundMoney(taxable + tax);
+      document.getElementById('taxableDisplay').textContent = money(taxable);
+      document.getElementById('cgstDisplay').textContent = money(cgst);
+      document.getElementById('sgstDisplay').textContent = money(sgst);
+      document.getElementById('igstDisplay').textContent = money(igst);
+      document.getElementById('grandDisplay').textContent = money(total);
+      document.getElementById('halfRate').textContent = half;
+      document.getElementById('halfRate2').textContent = half;
+      document.getElementById('fullRate').textContent = rate;
+      document.getElementById('cgstLine').classList.toggle('hidden', interState || rate === 0);
+      document.getElementById('sgstLine').classList.toggle('hidden', interState || rate === 0);
+      document.getElementById('igstLine').classList.toggle('hidden', !interState || rate === 0);
+      document.getElementById('previewTaxable').textContent = money(taxable);
+      document.getElementById('previewCgst').textContent = money(cgst);
+      document.getElementById('previewSgst').textContent = money(sgst);
+      document.getElementById('previewIgst').textContent = money(igst);
+      document.getElementById('previewGrand').textContent = money(total);
+      document.getElementById('previewCgstRow').classList.toggle('hidden', interState || rate === 0);
+      document.getElementById('previewSgstRow').classList.toggle('hidden', interState || rate === 0);
+      document.getElementById('previewIgstRow').classList.toggle('hidden', !interState || rate === 0);
+      document.getElementById('previewIgstRow').classList.toggle('flex', interState && rate !== 0);
+      const tbody = document.getElementById('previewItems');
+      tbody.innerHTML = items.length ? items.map(item => `<tr class="border-b border-slate-100"><td class="py-2 pr-2">${escapeHtml(item.description)}</td><td class="text-right">${item.qty}</td><td class="text-right">${money(item.rate)}</td><td class="text-right">${money(item.qty * item.rate)}</td></tr>`).join('') : '<tr><td class="py-2 text-slate-500">Service details will appear here</td><td class="text-right">—</td><td class="text-right">—</td><td class="text-right">₹0.00</td></tr>';
+      document.getElementById('previewClient').textContent = document.getElementById('clientName').value || 'Client name';
+      document.getElementById('previewAddress').textContent = document.getElementById('clientAddress').value || 'Client address';
+      document.getElementById('previewGstin').textContent = document.getElementById('clientGstin').value ? `GSTIN: ${document.getElementById('clientGstin').value}` : '';
+      document.getElementById('previewSupply').textContent = document.getElementById('supplyState').value;
+      document.getElementById('previewDate').textContent = document.getElementById('invoiceDate').value || '—';
+      const notes = document.getElementById('invoiceNotes').value;
+      document.getElementById('previewNotes').textContent = notes ? `Notes: ${notes}` : '';
+      document.getElementById('previewNotes').classList.toggle('hidden', !notes);
+      return { items, taxable, rate, cgst, sgst, igst, total, interState };
+    }
+    function addItem(description = '', qty = 1, rate = '') {
+      const row = document.createElement('tr');
+      row.className = 'item-row border-t border-slate-100';
+      row.innerHTML = `<td class="py-2 pr-2"><input class="field item-description" aria-label="Service description" placeholder="e.g. International flight booking" value="${escapeHtml(description)}"></td><td class="py-2 pr-2"><input class="field item-qty" aria-label="Quantity" type="number" min="0" step="1" value="${qty}"></td><td class="py-2 pr-2"><input class="field item-rate" aria-label="Rate in rupees" type="number" min="0" step="0.01" value="${escapeHtml(rate)}" placeholder="0.00"></td><td class="item-amount py-2 text-right text-xs font-semibold">₹0.00</td><td class="py-2 pl-2"><button type="button" class="remove-item text-slate-300 hover:text-red-500" aria-label="Remove item"><i class="fa-solid fa-xmark"></i></button></td>`;
+      document.getElementById('itemRows').appendChild(row);
+      row.addEventListener('input', () => { row.querySelector('.item-amount').textContent = money(roundMoney((Number(row.querySelector('.item-qty').value) || 0) * (Number(row.querySelector('.item-rate').value) || 0))); calculate(); });
+      row.querySelector('.remove-item').addEventListener('click', () => { if (document.querySelectorAll('.item-row').length > 1) row.remove(); else { row.querySelector('.item-description').value = ''; row.querySelector('.item-qty').value = 1; row.querySelector('.item-rate').value = ''; } calculate(); });
+      calculate();
+    }
+    function render() {
+      const badge = status => status === 'Paid' ? '<span class="badge bg-emerald-50 text-emerald-700">Paid</span>' : '<span class="badge bg-amber-50 text-amber-700">Pending</span>';
+      const invoiceRows = invoices.map(invoice => `<tr class="border-b border-slate-50 text-xs"><td class="py-3 font-semibold">${escapeHtml(invoice.number)}</td><td class="py-3">${escapeHtml(invoice.client)}</td><td class="py-3 text-slate-500">${escapeHtml(invoice.date)}</td><td class="py-3 font-semibold">${money(invoice.total)}</td><td class="py-3">${badge(invoice.status)}</td><td class="py-3"><button class="text-[10px] font-semibold text-[#9a743e] hover:underline" data-invoice="${escapeHtml(invoice.number)}">View</button> <button class="ml-2 text-[10px] font-semibold text-slate-400 hover:text-emerald-700" data-paid="${escapeHtml(invoice.number)}">${invoice.status === 'Paid' ? 'Mark pending' : 'Mark paid'}</button></td></tr>`).join('');
+      document.getElementById('invoiceTable').innerHTML = invoiceRows;
+      document.getElementById('dashboardInvoices').innerHTML = invoiceRows;
+      document.getElementById('invoiceEmpty').classList.toggle('hidden', invoices.length > 0);
+      document.getElementById('dashboardEmpty').classList.toggle('hidden', invoices.length > 0);
+      document.getElementById('invoiceCountLabel').textContent = `${invoices.length} invoice${invoices.length === 1 ? '' : 's'}`;
+      const revenue = invoices.filter(item => item.status === 'Paid').reduce((sum, item) => sum + item.total, 0);
+      const pending = invoices.filter(item => item.status === 'Pending');
+      document.getElementById('revenueMetric').textContent = money(revenue);
+      document.getElementById('bookingMetric').textContent = invoices.length;
+      document.getElementById('pendingMetric').textContent = money(pending.reduce((sum, item) => sum + item.total, 0));
+      document.getElementById('pendingCount').textContent = `${pending.length} awaiting payment`;
+      const bookings = invoices.map(item => `<tr class="border-b border-slate-50 text-xs"><td class="py-3 font-semibold">${escapeHtml(item.number)}</td><td>${escapeHtml(item.client)}</td><td>${escapeHtml(item.items.map(line => line.description).join(', '))}</td><td>${escapeHtml(item.date)}</td><td>${money(item.total)}</td><td>${badge(item.status)}</td></tr>`).join('');
+      document.getElementById('bookingTable').innerHTML = bookings;
+      document.getElementById('bookingEmpty').classList.toggle('hidden', invoices.length > 0);
+      const clientSelect = document.getElementById('clientSelect');
+      const selected = clientSelect.value;
+      clientSelect.innerHTML = '<option value="">Select a saved client or enter details</option>' + clients.map((client, index) => `<option value="${index}">${escapeHtml(client.name)}</option>`).join('');
+      clientSelect.value = selected;
+      document.getElementById('clientList').innerHTML = clients.map((client, index) => `<div class="flex items-center justify-between gap-4 py-4"><div class="min-w-0"><p class="truncate text-xs font-semibold">${escapeHtml(client.name)}</p><p class="mt-1 truncate text-[10px] text-slate-400">${escapeHtml(client.phone || 'No phone')} · ${escapeHtml(client.address || 'No address')}</p>${client.gstin ? `<p class="mt-1 text-[10px] text-slate-400">GSTIN: ${escapeHtml(client.gstin)}</p>` : ''}</div><button class="delete-client shrink-0 text-[10px] text-slate-400 hover:text-red-600" data-client="${index}" aria-label="Delete client"><i class="fa-solid fa-trash"></i></button></div>`).join('');
+      document.getElementById('clientEmpty').classList.toggle('hidden', clients.length > 0);
+    }
+    function showView(name) {
+      document.querySelectorAll('.view').forEach(section => section.classList.toggle('active', section.id === name));
+      document.querySelectorAll('.side-link').forEach(link => link.classList.toggle('active', link.dataset.view === name));
+      document.getElementById('sidebar').classList.remove('open');
+      document.getElementById('sidebarShade').classList.remove('show');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    document.querySelectorAll('[data-view]').forEach(button => button.addEventListener('click', () => showView(button.dataset.view)));
+    document.querySelectorAll('[data-go]').forEach(button => button.addEventListener('click', () => showView(button.dataset.go)));
+    document.getElementById('openSidebar').addEventListener('click', () => { document.getElementById('sidebar').classList.add('open'); document.getElementById('sidebarShade').classList.add('show'); });
+    document.getElementById('closeSidebar').addEventListener('click', () => showView(document.querySelector('.side-link.active').dataset.view));
+    document.getElementById('sidebarShade').addEventListener('click', () => showView(document.querySelector('.side-link.active').dataset.view));
+    document.getElementById('addItem').addEventListener('click', () => addItem());
+    ['taxRate', 'supplyState', 'clientName', 'clientAddress', 'clientGstin', 'invoiceDate', 'invoiceNotes'].forEach(id => document.getElementById(id).addEventListener('input', calculate));
+    document.getElementById('supplyState').addEventListener('change', calculate);
+    document.getElementById('clientSelect').addEventListener('change', event => {
+      const client = clients[Number(event.target.value)];
+      if (!client) return;
+      document.getElementById('clientName').value = client.name || '';
+      document.getElementById('clientPhone').value = client.phone || '';
+      document.getElementById('clientAddress').value = client.address || '';
+      document.getElementById('clientGstin').value = client.gstin || '';
+      calculate();
+    });
+    document.getElementById('invoiceForm').addEventListener('submit', event => {
+      event.preventDefault();
+      const totals = calculate();
+      if (!totals.items.length || totals.items.some(item => !item.description || item.qty <= 0)) { alert('Add at least one service with a description and a quantity greater than zero.'); return; }
+      const invoice = {
+        number: `TK-${new Date().getFullYear()}-${String(++invoiceCounter).padStart(3, '0')}`,
+        date: document.getElementById('invoiceDate').value,
+        client: document.getElementById('clientName').value.trim(),
+        phone: document.getElementById('clientPhone').value.trim(),
+        address: document.getElementById('clientAddress').value.trim(),
+        gstin: document.getElementById('clientGstin').value.trim(),
+        supply: document.getElementById('supplyState').value,
+        notes: document.getElementById('invoiceNotes').value.trim(),
+        ...totals,
+        status: 'Pending'
+      };
+      invoices.unshift(invoice);
+      try { saveStore(STORAGE.invoices, invoices); }
+      catch (error) { invoices.shift(); invoiceCounter--; return; }
+      document.getElementById('previewNumber').textContent = invoice.number;
+      render();
+      alert(`Invoice ${invoice.number} saved as pending.`);
+    });
+    document.getElementById('newInvoice').addEventListener('click', () => {
+      document.getElementById('invoiceForm').reset();
+      document.getElementById('invoiceDate').value = today;
+      document.getElementById('itemRows').innerHTML = '';
+      addItem();
+      document.getElementById('previewNumber').textContent = `TK-${new Date().getFullYear()}-${String(invoiceCounter + 1).padStart(3, '0')}`;
+      showView('invoices');
+    });
+    document.getElementById('clearForm').addEventListener('click', () => {
+      document.getElementById('invoiceForm').reset();
+      document.getElementById('invoiceDate').value = today;
+      document.getElementById('itemRows').innerHTML = '';
+      addItem();
+      document.getElementById('previewNumber').textContent = `TK-${new Date().getFullYear()}-${String(invoiceCounter + 1).padStart(3, '0')}`;
+    });
+    document.getElementById('printInvoice').addEventListener('click', () => window.print());
+    document.getElementById('clientForm').addEventListener('submit', event => {
+      event.preventDefault();
+      const client = { name: document.getElementById('newClientName').value.trim(), phone: document.getElementById('newClientPhone').value.trim(), address: document.getElementById('newClientAddress').value.trim(), gstin: document.getElementById('newClientGstin').value.trim() };
+      clients.push(client);
+      try { saveStore(STORAGE.clients, clients); }
+      catch (error) { clients.pop(); return; }
+      event.currentTarget.reset();
+      render();
+    });
+    document.addEventListener('click', event => {
+      const viewButton = event.target.closest('[data-invoice]');
+      if (viewButton) {
+        const invoice = invoices.find(item => item.number === viewButton.dataset.invoice);
+        if (!invoice) return;
+        document.getElementById('previewNumber').textContent = invoice.number;
+        document.getElementById('previewDate').textContent = invoice.date;
+        document.getElementById('clientName').value = invoice.client;
+        document.getElementById('clientAddress').value = invoice.address;
+        document.getElementById('clientGstin').value = invoice.gstin;
+        document.getElementById('supplyState').value = invoice.supply;
+        document.getElementById('taxRate').value = invoice.rate;
+        document.getElementById('invoiceNotes').value = invoice.notes;
+        document.getElementById('itemRows').innerHTML = '';
+        invoice.items.forEach(item => addItem(item.description, item.qty, item.rate));
+        calculate();
+        showView('invoices');
+      }
+      const paidButton = event.target.closest('[data-paid]');
+      if (paidButton) {
+        const invoice = invoices.find(item => item.number === paidButton.dataset.paid);
+        if (invoice) {
+          invoice.status = invoice.status === 'Paid' ? 'Pending' : 'Paid';
+          try { saveStore(STORAGE.invoices, invoices); } catch (error) { invoice.status = invoice.status === 'Paid' ? 'Pending' : 'Paid'; return; }
+          render();
+        }
+      }
+      const deleteButton = event.target.closest('[data-client]');
+      if (deleteButton) {
+        const client = clients.splice(Number(deleteButton.dataset.client), 1)[0];
+        try { saveStore(STORAGE.clients, clients); } catch (error) { clients.splice(Number(deleteButton.dataset.client), 0, client); return; }
+        render();
+      }
+    });
+    addItem();
+    document.getElementById('previewNumber').textContent = `TK-${new Date().getFullYear()}-${String(invoiceCounter + 1).padStart(3, '0')}`;
+    render();
+  </script>
+</body>
+</html>
