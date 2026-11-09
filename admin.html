@@ -30,6 +30,7 @@
     .view.active { display: block; }
     .invoice-sheet { width: 100%; max-width: 800px; margin: auto; padding: 42px; background: white; color: #1d2938; }
     .table-wrap { overflow-x: auto; }
+    #loginOverlay { background: radial-gradient(ellipse at 75% 20%, rgba(216,173,103,.13), transparent 40%), #101b2c; }
     @media(max-width: 767px) {
       #sidebar { position: fixed; z-index: 40; inset: 0 auto 0 0; width: 260px; transform: translateX(-105%); transition: transform .25s ease; }
       #sidebar.open { transform: translateX(0); }
@@ -46,8 +47,24 @@
   </style>
 </head>
 <body class="min-h-screen">
+  <section id="loginOverlay" class="fixed inset-0 z-[100] flex min-h-screen items-center justify-center px-5 py-10" role="dialog" aria-modal="true" aria-labelledby="loginTitle">
+    <div class="w-full max-w-[410px] rounded-2xl border border-white/10 bg-white/[.06] p-7 text-white shadow-2xl backdrop-blur-xl sm:p-9">
+      <a href="index.html" class="mb-9 inline-flex items-center gap-3"><span class="flex h-10 w-10 items-center justify-center rounded-full border border-[#d8ad67]/70 text-[#d8ad67]"><i class="fa-solid fa-compass"></i></span><span><strong class="block text-[11px] tracking-[.14em]">TRIVIKARMA</strong><small class="mt-1 block text-[9px] tracking-[.18em] text-white/50">OVERSEAS LLP</small></span></a>
+      <p class="text-[10px] font-bold uppercase tracking-[.2em] text-[#d8ad67]">Administrator access</p>
+      <h1 id="loginTitle" class="display mt-2 text-2xl font-bold">Welcome back</h1>
+      <p class="mt-2 text-xs leading-5 text-white/55">Sign in to open the billing workspace.</p>
+      <form id="loginForm" class="mt-7 space-y-4">
+        <label class="block text-xs font-medium text-white/75">Username<input id="loginUsername" required autocomplete="username" class="mt-2 w-full rounded-lg border border-white/15 bg-white/[.06] px-3 py-3 text-sm text-white outline-none placeholder:text-white/30 focus:border-[#d8ad67]" placeholder="Enter your username"></label>
+        <label class="block text-xs font-medium text-white/75">Password<input id="loginPassword" required type="password" autocomplete="current-password" class="mt-2 w-full rounded-lg border border-white/15 bg-white/[.06] px-3 py-3 text-sm text-white outline-none placeholder:text-white/30 focus:border-[#d8ad67]" placeholder="Enter your password"></label>
+        <p id="loginError" class="hidden text-xs text-red-300" role="alert">The username or password is incorrect.</p>
+        <button type="submit" class="btn-gold w-full rounded-lg px-4 py-3 text-xs font-bold"><i class="fa-solid fa-lock mr-2"></i>Sign in</button>
+      </form>
+      <p class="mt-5 text-[10px] leading-5 text-white/40">Demo sign-in only. This static website does not provide production-grade authentication.</p>
+      <a href="index.html" class="mt-5 inline-block text-xs text-[#d8ad67] hover:text-white"><i class="fa-solid fa-arrow-left mr-2"></i>Back to website</a>
+    </div>
+  </section>
   <div id="sidebarShade" class="fixed inset-0 z-30 hidden bg-slate-950/40 md:hidden"></div>
-  <aside id="sidebar" class="fixed inset-y-0 left-0 z-40 flex w-[250px] flex-col bg-[#101b2c] px-4 py-5 text-white">
+  <aside id="sidebar" inert aria-hidden="true" class="fixed inset-y-0 left-0 z-40 flex w-[250px] flex-col bg-[#101b2c] px-4 py-5 text-white">
     <div class="flex items-center justify-between px-2">
       <a href="index.html" class="flex items-center gap-3"><span class="flex h-10 w-10 items-center justify-center rounded-full border border-[#d8ad67]/70 text-[#d8ad67]"><i class="fa-solid fa-compass"></i></span><span><strong class="block text-[11px] tracking-[.14em]">TRIVIKARMA</strong><small class="mt-1 block text-[9px] tracking-[.18em] text-white/50">OVERSEAS LLP</small></span></a>
       <button id="closeSidebar" class="text-white/50 md:hidden" aria-label="Close menu"><i class="fa-solid fa-xmark"></i></button>
@@ -63,7 +80,7 @@
     <a href="index.html" class="mt-4 flex items-center gap-3 px-3 py-2 text-xs text-white/55 hover:text-[#d8ad67]"><i class="fa-solid fa-arrow-left w-4"></i>Back to website</a>
   </aside>
 
-  <div class="min-h-screen md:pl-[250px]">
+  <div id="portalMain" inert aria-hidden="true" class="min-h-screen md:pl-[250px]">
     <header class="sticky top-0 z-20 flex h-[68px] items-center justify-between border-b border-slate-200/80 bg-white/90 px-4 backdrop-blur-md sm:px-7">
       <div class="flex items-center gap-3"><button id="openSidebar" class="rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-600 md:hidden" aria-label="Open menu"><i class="fa-solid fa-bars"></i></button><div><p class="display text-[13px] font-bold">Accounting & Billing</p><p class="hidden text-[10px] text-slate-400 sm:block">Good day, Maulik. Here's your business at a glance.</p></div></div>
       <div class="flex items-center gap-3"><span class="hidden text-right sm:block"><strong class="block text-xs">Maulik Shah</strong><small class="text-[10px] text-slate-400">Administrator</small></span><span class="flex h-9 w-9 items-center justify-center rounded-full bg-[#f3ead9] text-xs font-bold text-[#8e6a36]">MS</span></div>
@@ -150,6 +167,27 @@
   </div>
 
   <script>
+    const loginForm = document.getElementById('loginForm');
+    const loginOverlay = document.getElementById('loginOverlay');
+    const portalElements = [document.getElementById('sidebar'), document.getElementById('portalMain')];
+    document.getElementById('loginUsername').focus();
+    loginForm.addEventListener('submit', event => {
+      event.preventDefault();
+      const username = document.getElementById('loginUsername').value.trim();
+      const password = document.getElementById('loginPassword').value;
+      if (username !== 'trivikarma' || password !== 'Tri@123') {
+        document.getElementById('loginError').classList.remove('hidden');
+        document.getElementById('loginPassword').value = '';
+        document.getElementById('loginPassword').focus();
+        return;
+      }
+      portalElements.forEach(element => {
+        element.inert = false;
+        element.removeAttribute('aria-hidden');
+      });
+      loginOverlay.remove();
+    });
+
     const STORAGE = { invoices: 'trivikarma.invoices.v1', clients: 'trivikarma.clients.v1' };
     const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwZ6fJbkCeL5Lad7Z99pBaP-X3S7M6YvAVngRoKJgsngFWZzuwhm0pf0DMu1kAwLespzw/exec';
 
