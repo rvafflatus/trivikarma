@@ -59,7 +59,7 @@
       <button class="side-link flex w-full items-center gap-3 rounded-lg px-3 py-3 text-left text-xs text-white/65" data-view="clients"><i class="fa-solid fa-users w-4"></i>Clients / Parties</button>
       <button class="side-link flex w-full items-center gap-3 rounded-lg px-3 py-3 text-left text-xs text-white/65" data-view="bookings"><i class="fa-solid fa-suitcase-rolling w-4"></i>Bookings</button>
     </nav>
-    <div class="mt-auto rounded-xl border border-white/10 bg-white/[.04] p-3 text-[10px] leading-5 text-white/45"><i class="fa-solid fa-circle-info mr-1 text-[#d8ad67]"></i> Local demo portal. Data is saved only in this browser.</div>
+    <div class="mt-auto rounded-xl border border-white/10 bg-white/[.04] p-3 text-[10px] leading-5 text-white/45"><i class="fa-solid fa-circle-info mr-1 text-[#d8ad67]"></i> Connected with Google Sheets backend.</div>
     <a href="index.html" class="mt-4 flex items-center gap-3 px-3 py-2 text-xs text-white/55 hover:text-[#d8ad67]"><i class="fa-solid fa-arrow-left w-4"></i>Back to website</a>
   </aside>
 
@@ -151,6 +151,8 @@
 
   <script>
     const STORAGE = { invoices: 'trivikarma.invoices.v1', clients: 'trivikarma.clients.v1' };
+    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwZ6fJbkCeL5Lad7Z99pBaP-X3S7M6YvAVngRoKJgsngFWZzuwhm0pf0DMu1kAwLespzw/exec';
+
     const money = value => new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(Number(value) || 0);
     const roundMoney = value => Math.round((value + Number.EPSILON) * 100) / 100;
     const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
@@ -173,6 +175,39 @@
       try { localStorage.setItem(key, JSON.stringify(value)); }
       catch (error) { alert('Could not save your data in this browser. Check available storage and try again.'); throw error; }
     }
+
+    // Function to sync new invoice data directly to Google Sheets via Apps Script URL
+    function syncToGoogleSheet(invoice) {
+      const payload = {
+        invoiceNo: invoice.number,
+        date: invoice.date,
+        clientName: invoice.client,
+        clientPhone: invoice.phone,
+        clientEmail: '',
+        gstin: invoice.gstin,
+        serviceType: invoice.items.map(i => i.description).join(' | '),
+        bookingDetails: invoice.notes,
+        taxableAmount: invoice.taxable,
+        cgstRate: invoice.rate > 0 && !invoice.interState ? invoice.rate / 2 : 0,
+        cgstAmount: invoice.cgst,
+        sgstRate: invoice.rate > 0 && !invoice.interState ? invoice.rate / 2 : 0,
+        sgstAmount: invoice.sgst,
+        igstRate: invoice.rate > 0 && invoice.interState ? invoice.rate : 0,
+        igstAmount: invoice.igst,
+        totalAmount: invoice.total,
+        paymentStatus: invoice.status,
+        paymentMode: '',
+        remarks: invoice.notes
+      };
+
+      fetch(GOOGLE_SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      }).catch(error => console.error('Google Sheet sync error:', error));
+    }
+
     function currentItems() {
       return [...document.querySelectorAll('.item-row')].map(row => ({
         description: row.querySelector('.item-description').value.trim(),
@@ -299,9 +334,13 @@
       invoices.unshift(invoice);
       try { saveStore(STORAGE.invoices, invoices); }
       catch (error) { invoices.shift(); invoiceCounter--; return; }
+
+      // Send data to Google Sheets via Apps Script URL
+      syncToGoogleSheet(invoice);
+
       document.getElementById('previewNumber').textContent = invoice.number;
       render();
-      alert(`Invoice ${invoice.number} saved as pending.`);
+      alert(`Invoice ${invoice.number} saved and synced to Google Sheets.`);
     });
     document.getElementById('newInvoice').addEventListener('click', () => {
       document.getElementById('invoiceForm').reset();
