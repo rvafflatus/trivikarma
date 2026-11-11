@@ -24,6 +24,7 @@
     .service-card:hover { transform: translateY(-7px); border-color: rgba(216,173,103,.55); background: rgba(255,255,255,.09); }
     .partner { filter: grayscale(1); opacity: .7; transition: .2s ease; }
     .partner:hover { filter: grayscale(0); opacity: 1; }
+    #airline-track .airline-code { position: absolute; bottom: .25rem; right: .25rem; border-radius: .35rem; background: rgba(15,23,42,.88); padding: .1rem .25rem; color: #d8ad67; font-size: .55rem; font-weight: 700; letter-spacing: .04em; }
     input, select, textarea { color-scheme: light; }
     @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; } }
   </style>
@@ -73,6 +74,100 @@
       <div class="absolute bottom-8 right-8 hidden items-center gap-3 text-[9px] uppercase tracking-[.25em] text-white/50 md:flex"><span class="h-px w-10 bg-gold"></span> Let your story take flight</div>
     </section>
 
+    <section id="airlines" class="bg-slate-950 px-5 py-20 md:py-24" aria-labelledby="airlines-title">
+      <div class="mx-auto max-w-7xl">
+        <div class="flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
+          <div>
+            <p class="text-[10px] font-bold uppercase tracking-[.25em] text-gold">A world of connections</p>
+            <h2 id="airlines-title" class="serif mt-3 text-4xl sm:text-5xl">The airlines that take you there.</h2>
+            <p class="mt-3 max-w-xl text-xs leading-6 text-white/55">Explore popular routes between the world and India. Fares are indicative, one-way starting prices and subject to availability.</p>
+          </div>
+          <div class="flex shrink-0 gap-2">
+            <button type="button" class="airline-prev flex h-11 w-11 items-center justify-center rounded-full border border-white/15 text-gold transition hover:border-gold hover:bg-gold hover:text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-gold" aria-label="Show previous airlines" aria-controls="airline-track">
+              <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+            </button>
+            <button type="button" class="airline-next flex h-11 w-11 items-center justify-center rounded-full border border-white/15 text-gold transition hover:border-gold hover:bg-gold hover:text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-gold" aria-label="Show next airlines" aria-controls="airline-track">
+              <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="mt-9 overflow-hidden" aria-roledescription="carousel" aria-label="Airlines and popular routes">
+          <div id="airline-track" class="flex gap-3 transition-transform duration-700 ease-in-out motion-reduce:transition-none">
+            <div class="grid w-1/2 shrink-0 grid-cols-4 gap-1 sm:gap-4" role="group" aria-roledescription="slide" aria-label="Airlines 1 through 4">
+              <article class="flex min-w-0 flex-col overflow-hidden rounded-2xl border border-white/10 bg-slate-900 p-2 transition hover:border-gold/50 sm:p-5">
+                <div class="-mx-2 -mt-2 mb-3 flex h-16 items-end justify-between overflow-hidden bg-gradient-to-br from-red-600 via-red-900 to-amber-500 p-2 sm:-mx-5 sm:-mt-5 sm:mb-4 sm:h-24 sm:p-5"><i class="fa-solid fa-plane -mb-5 -mr-2 rotate-[-18deg] text-5xl text-white/15 sm:text-7xl" aria-hidden="true"></i><span class="airline-art relative flex h-12 w-12 shrink-0 flex-col items-center justify-center overflow-hidden rounded-xl border border-gold/60 bg-gradient-to-br from-red-500 via-red-800 to-amber-500 text-gold shadow-xl sm:h-14 sm:w-14" role="img" aria-label="Emirates flight emblem"><i class="fa-solid fa-plane-up text-xl text-white drop-shadow-lg sm:text-2xl" aria-hidden="true"></i><span class="airline-code">EK</span></span></div>
+                <h3 class="mt-4 min-h-10 text-xs font-bold leading-5 sm:text-base">Emirates</h3>
+                <p class="mt-2 text-[10px] leading-4 text-white/55 sm:text-xs">DXB <span class="text-gold">⇄</span> DEL / BOM</p>
+                <p class="mt-4 text-[10px] text-white/50 sm:text-xs">Starting from</p>
+                <p class="mt-1 text-xs font-semibold text-gold sm:text-base">₹24,900</p>
+                <a href="https://wa.me/919924100211?text=Hello%20Trivikarma%20Overseas%2C%20I%20would%20like%20to%20enquire%20about%20a%20flight." target="_blank" rel="noopener noreferrer" class="whatsapp-booking mt-auto inline-flex items-center justify-center gap-1 rounded-lg bg-gold px-1 py-2 text-[9px] font-bold text-slate-950 transition hover:bg-white sm:mt-5 sm:gap-2 sm:px-3 sm:text-xs"><i class="fa-brands fa-whatsapp text-xs sm:text-sm" aria-hidden="true"></i>Book Now</a>
+              </article>
+              <article class="flex min-w-0 flex-col overflow-hidden rounded-2xl border border-white/10 bg-slate-900 p-2 transition hover:border-gold/50 sm:p-5">
+                <div class="-mx-2 -mt-2 mb-3 flex h-16 items-end justify-between overflow-hidden bg-gradient-to-br from-rose-600 via-purple-800 to-orange-400 p-2 sm:-mx-5 sm:-mt-5 sm:mb-4 sm:h-24 sm:p-5"><i class="fa-solid fa-plane -mb-5 -mr-2 rotate-[-18deg] text-5xl text-white/15 sm:text-7xl" aria-hidden="true"></i><span class="airline-art relative flex h-12 w-12 shrink-0 flex-col items-center justify-center overflow-hidden rounded-xl border border-gold/60 bg-gradient-to-br from-rose-600 via-purple-800 to-orange-400 text-gold shadow-xl sm:h-14 sm:w-14" role="img" aria-label="Air India flight emblem"><i class="fa-solid fa-plane-up text-xl text-white drop-shadow-lg sm:text-2xl" aria-hidden="true"></i><span class="airline-code">AI</span></span></div>
+                <h3 class="mt-4 min-h-10 text-xs font-bold leading-5 sm:text-base">Air India</h3>
+                <p class="mt-2 text-[10px] leading-4 text-white/55 sm:text-xs">LHR <span class="text-gold">⇄</span> DEL / BOM</p>
+                <p class="mt-4 text-[10px] text-white/50 sm:text-xs">Starting from</p>
+                <p class="mt-1 text-xs font-semibold text-gold sm:text-base">₹38,500</p>
+                <a href="https://wa.me/919924100211?text=Hello%20Trivikarma%20Overseas%2C%20I%20would%20like%20to%20enquire%20about%20a%20flight." target="_blank" rel="noopener noreferrer" class="whatsapp-booking mt-auto inline-flex items-center justify-center gap-1 rounded-lg bg-gold px-1 py-2 text-[9px] font-bold text-slate-950 transition hover:bg-white sm:mt-5 sm:gap-2 sm:px-3 sm:text-xs"><i class="fa-brands fa-whatsapp text-xs sm:text-sm" aria-hidden="true"></i>Book Now</a>
+              </article>
+              <article class="flex min-w-0 flex-col overflow-hidden rounded-2xl border border-white/10 bg-slate-900 p-2 transition hover:border-gold/50 sm:p-5">
+                <div class="-mx-2 -mt-2 mb-3 flex h-16 items-end justify-between overflow-hidden bg-gradient-to-br from-blue-700 via-indigo-950 to-cyan-500 p-2 sm:-mx-5 sm:-mt-5 sm:mb-4 sm:h-24 sm:p-5"><i class="fa-solid fa-plane -mb-5 -mr-2 rotate-[-18deg] text-5xl text-white/15 sm:text-7xl" aria-hidden="true"></i><span class="airline-art relative flex h-12 w-12 shrink-0 flex-col items-center justify-center overflow-hidden rounded-xl border border-gold/60 bg-gradient-to-br from-blue-700 via-indigo-950 to-cyan-500 text-gold shadow-xl sm:h-14 sm:w-14" role="img" aria-label="IndiGo flight emblem"><i class="fa-solid fa-plane-up text-xl text-white drop-shadow-lg sm:text-2xl" aria-hidden="true"></i><span class="airline-code">6E</span></span></div>
+                <h3 class="mt-4 min-h-10 text-xs font-bold leading-5 sm:text-base">IndiGo</h3>
+                <p class="mt-2 text-[10px] leading-4 text-white/55 sm:text-xs">DXB <span class="text-gold">⇄</span> BOM / AMD</p>
+                <p class="mt-4 text-[10px] text-white/50 sm:text-xs">Starting from</p>
+                <p class="mt-1 text-xs font-semibold text-gold sm:text-base">₹10,800</p>
+                <a href="https://wa.me/919924100211?text=Hello%20Trivikarma%20Overseas%2C%20I%20would%20like%20to%20enquire%20about%20a%20flight." target="_blank" rel="noopener noreferrer" class="whatsapp-booking mt-auto inline-flex items-center justify-center gap-1 rounded-lg bg-gold px-1 py-2 text-[9px] font-bold text-slate-950 transition hover:bg-white sm:mt-5 sm:gap-2 sm:px-3 sm:text-xs"><i class="fa-brands fa-whatsapp text-xs sm:text-sm" aria-hidden="true"></i>Book Now</a>
+              </article>
+              <article class="flex min-w-0 flex-col overflow-hidden rounded-2xl border border-white/10 bg-slate-900 p-2 transition hover:border-gold/50 sm:p-5">
+                <div class="-mx-2 -mt-2 mb-3 flex h-16 items-end justify-between overflow-hidden bg-gradient-to-br from-rose-800 via-red-950 to-amber-600 p-2 sm:-mx-5 sm:-mt-5 sm:mb-4 sm:h-24 sm:p-5"><i class="fa-solid fa-plane -mb-5 -mr-2 rotate-[-18deg] text-5xl text-white/15 sm:text-7xl" aria-hidden="true"></i><span class="airline-art relative flex h-12 w-12 shrink-0 flex-col items-center justify-center overflow-hidden rounded-xl border border-gold/60 bg-gradient-to-br from-rose-800 via-red-950 to-amber-600 text-gold shadow-xl sm:h-14 sm:w-14" role="img" aria-label="Qatar Airways flight emblem"><i class="fa-solid fa-plane-up text-xl text-white drop-shadow-lg sm:text-2xl" aria-hidden="true"></i><span class="airline-code">QR</span></span></div>
+                <h3 class="mt-4 min-h-10 text-xs font-bold leading-5 sm:text-base">Qatar Airways</h3>
+                <p class="mt-2 text-[10px] leading-4 text-white/55 sm:text-xs">DOH <span class="text-gold">⇄</span> DEL / BOM</p>
+                <p class="mt-4 text-[10px] text-white/50 sm:text-xs">Starting from</p>
+                <p class="mt-1 text-xs font-semibold text-gold sm:text-base">₹27,400</p>
+                <a href="https://wa.me/919924100211?text=Hello%20Trivikarma%20Overseas%2C%20I%20would%20like%20to%20enquire%20about%20a%20flight." target="_blank" rel="noopener noreferrer" class="whatsapp-booking mt-auto inline-flex items-center justify-center gap-1 rounded-lg bg-gold px-1 py-2 text-[9px] font-bold text-slate-950 transition hover:bg-white sm:mt-5 sm:gap-2 sm:px-3 sm:text-xs"><i class="fa-brands fa-whatsapp text-xs sm:text-sm" aria-hidden="true"></i>Book Now</a>
+              </article>
+            </div>
+            <div class="grid w-1/2 shrink-0 grid-cols-4 gap-1 sm:gap-4" role="group" aria-roledescription="slide" aria-label="Airlines 5 through 8" aria-hidden="true" inert>
+              <article class="flex min-w-0 flex-col overflow-hidden rounded-2xl border border-white/10 bg-slate-900 p-2 transition hover:border-gold/50 sm:p-5">
+                <div class="-mx-2 -mt-2 mb-3 flex h-16 items-end justify-between overflow-hidden bg-gradient-to-br from-amber-500 via-red-700 to-indigo-950 p-2 sm:-mx-5 sm:-mt-5 sm:mb-4 sm:h-24 sm:p-5"><i class="fa-solid fa-plane -mb-5 -mr-2 rotate-[-18deg] text-5xl text-white/15 sm:text-7xl" aria-hidden="true"></i><span class="airline-art relative flex h-12 w-12 shrink-0 flex-col items-center justify-center overflow-hidden rounded-xl border border-gold/60 bg-gradient-to-br from-amber-500 via-red-700 to-indigo-950 text-gold shadow-xl sm:h-14 sm:w-14" role="img" aria-label="Singapore Airlines flight emblem"><i class="fa-solid fa-plane-up text-xl text-white drop-shadow-lg sm:text-2xl" aria-hidden="true"></i><span class="airline-code">SQ</span></span></div>
+                <h3 class="mt-4 min-h-10 text-xs font-bold leading-5 sm:text-base">Singapore Airlines</h3>
+                <p class="mt-2 text-[10px] leading-4 text-white/55 sm:text-xs">SIN <span class="text-gold">⇄</span> BOM / DEL</p>
+                <p class="mt-4 text-[10px] text-white/50 sm:text-xs">Starting from</p>
+                <p class="mt-1 text-xs font-semibold text-gold sm:text-base">₹29,700</p>
+                <a href="https://wa.me/919924100211?text=Hello%20Trivikarma%20Overseas%2C%20I%20would%20like%20to%20enquire%20about%20a%20flight." target="_blank" rel="noopener noreferrer" class="whatsapp-booking mt-auto inline-flex items-center justify-center gap-1 rounded-lg bg-gold px-1 py-2 text-[9px] font-bold text-slate-950 transition hover:bg-white sm:mt-5 sm:gap-2 sm:px-3 sm:text-xs"><i class="fa-brands fa-whatsapp text-xs sm:text-sm" aria-hidden="true"></i>Book Now</a>
+              </article>
+              <article class="flex min-w-0 flex-col overflow-hidden rounded-2xl border border-white/10 bg-slate-900 p-2 transition hover:border-gold/50 sm:p-5">
+                <div class="-mx-2 -mt-2 mb-3 flex h-16 items-end justify-between overflow-hidden bg-gradient-to-br from-yellow-400 via-amber-800 to-slate-950 p-2 sm:-mx-5 sm:-mt-5 sm:mb-4 sm:h-24 sm:p-5"><i class="fa-solid fa-plane -mb-5 -mr-2 rotate-[-18deg] text-5xl text-white/15 sm:text-7xl" aria-hidden="true"></i><span class="airline-art relative flex h-12 w-12 shrink-0 flex-col items-center justify-center overflow-hidden rounded-xl border border-gold/60 bg-gradient-to-br from-yellow-400 via-amber-800 to-slate-950 text-gold shadow-xl sm:h-14 sm:w-14" role="img" aria-label="Etihad Airways flight emblem"><i class="fa-solid fa-plane-up text-xl text-white drop-shadow-lg sm:text-2xl" aria-hidden="true"></i><span class="airline-code">EY</span></span></div>
+                <h3 class="mt-4 min-h-10 text-xs font-bold leading-5 sm:text-base">Etihad Airways</h3>
+                <p class="mt-2 text-[10px] leading-4 text-white/55 sm:text-xs">AUH <span class="text-gold">⇄</span> DEL / BOM</p>
+                <p class="mt-4 text-[10px] text-white/50 sm:text-xs">Starting from</p>
+                <p class="mt-1 text-xs font-semibold text-gold sm:text-base">₹23,600</p>
+                <a href="https://wa.me/919924100211?text=Hello%20Trivikarma%20Overseas%2C%20I%20would%20like%20to%20enquire%20about%20a%20flight." target="_blank" rel="noopener noreferrer" class="whatsapp-booking mt-auto inline-flex items-center justify-center gap-1 rounded-lg bg-gold px-1 py-2 text-[9px] font-bold text-slate-950 transition hover:bg-white sm:mt-5 sm:gap-2 sm:px-3 sm:text-xs"><i class="fa-brands fa-whatsapp text-xs sm:text-sm" aria-hidden="true"></i>Book Now</a>
+              </article>
+              <article class="flex min-w-0 flex-col overflow-hidden rounded-2xl border border-white/10 bg-slate-900 p-2 transition hover:border-gold/50 sm:p-5">
+                <div class="-mx-2 -mt-2 mb-3 flex h-16 items-end justify-between overflow-hidden bg-gradient-to-br from-sky-500 via-blue-900 to-yellow-500 p-2 sm:-mx-5 sm:-mt-5 sm:mb-4 sm:h-24 sm:p-5"><i class="fa-solid fa-plane -mb-5 -mr-2 rotate-[-18deg] text-5xl text-white/15 sm:text-7xl" aria-hidden="true"></i><span class="airline-art relative flex h-12 w-12 shrink-0 flex-col items-center justify-center overflow-hidden rounded-xl border border-gold/60 bg-gradient-to-br from-sky-500 via-blue-900 to-yellow-500 text-gold shadow-xl sm:h-14 sm:w-14" role="img" aria-label="Lufthansa flight emblem"><i class="fa-solid fa-plane-up text-xl text-white drop-shadow-lg sm:text-2xl" aria-hidden="true"></i><span class="airline-code">LH</span></span></div>
+                <h3 class="mt-4 min-h-10 text-xs font-bold leading-5 sm:text-base">Lufthansa</h3>
+                <p class="mt-2 text-[10px] leading-4 text-white/55 sm:text-xs">FRA <span class="text-gold">⇄</span> BOM / DEL</p>
+                <p class="mt-4 text-[10px] text-white/50 sm:text-xs">Starting from</p>
+                <p class="mt-1 text-xs font-semibold text-gold sm:text-base">₹41,200</p>
+                <a href="https://wa.me/919924100211?text=Hello%20Trivikarma%20Overseas%2C%20I%20would%20like%20to%20enquire%20about%20a%20flight." target="_blank" rel="noopener noreferrer" class="whatsapp-booking mt-auto inline-flex items-center justify-center gap-1 rounded-lg bg-gold px-1 py-2 text-[9px] font-bold text-slate-950 transition hover:bg-white sm:mt-5 sm:gap-2 sm:px-3 sm:text-xs"><i class="fa-brands fa-whatsapp text-xs sm:text-sm" aria-hidden="true"></i>Book Now</a>
+              </article>
+              <article class="flex min-w-0 flex-col overflow-hidden rounded-2xl border border-white/10 bg-slate-900 p-2 transition hover:border-gold/50 sm:p-5">
+                <div class="-mx-2 -mt-2 mb-3 flex h-16 items-end justify-between overflow-hidden bg-gradient-to-br from-fuchsia-500 via-purple-900 to-indigo-950 p-2 sm:-mx-5 sm:-mt-5 sm:mb-4 sm:h-24 sm:p-5"><i class="fa-solid fa-plane -mb-5 -mr-2 rotate-[-18deg] text-5xl text-white/15 sm:text-7xl" aria-hidden="true"></i><span class="airline-art relative flex h-12 w-12 shrink-0 flex-col items-center justify-center overflow-hidden rounded-xl border border-gold/60 bg-gradient-to-br from-fuchsia-500 via-purple-900 to-indigo-950 text-gold shadow-xl sm:h-14 sm:w-14" role="img" aria-label="Thai Airways flight emblem"><i class="fa-solid fa-plane-up text-xl text-white drop-shadow-lg sm:text-2xl" aria-hidden="true"></i><span class="airline-code">TG</span></span></div>
+                <h3 class="mt-4 min-h-10 text-xs font-bold leading-5 sm:text-base">Thai Airways</h3>
+                <p class="mt-2 text-[10px] leading-4 text-white/55 sm:text-xs">BKK <span class="text-gold">⇄</span> DEL / BOM</p>
+                <p class="mt-4 text-[10px] text-white/50 sm:text-xs">Starting from</p>
+                <p class="mt-1 text-xs font-semibold text-gold sm:text-base">₹21,900</p>
+                <a href="https://wa.me/919924100211?text=Hello%20Trivikarma%20Overseas%2C%20I%20would%20like%20to%20enquire%20about%20a%20flight." target="_blank" rel="noopener noreferrer" class="whatsapp-booking mt-auto mt-4 inline-flex items-center justify-center gap-1 rounded-lg bg-gold px-1 py-2 text-[9px] font-bold text-slate-950 transition hover:bg-white sm:mt-5 sm:gap-2 sm:px-3 sm:text-xs"><i class="fa-brands fa-whatsapp text-xs sm:text-sm" aria-hidden="true"></i>Book Now</a>
+              </article>
+            </div>
+          </div>
+        </div>
+        <p id="airline-page-status" class="mt-5 text-center text-[10px] uppercase tracking-[.2em] text-white/40" aria-live="polite">Carriers 1–4 of 8</p>
+      </div>
+    </section>
+
     <section id="services" class="bg-cream px-5 py-24 text-ink md:py-28">
       <div class="mx-auto max-w-7xl">
         <div class="flex flex-col justify-between gap-5 md:flex-row md:items-end">
@@ -105,14 +200,6 @@
       </div>
     </section>
 
-    <section id="airlines" class="bg-[#0d1726] px-5 py-16">
-      <div class="mx-auto max-w-7xl text-center"><p class="text-[10px] font-bold uppercase tracking-[.25em] text-gold">A world of connections</p><h2 class="serif mt-3 text-4xl">The airlines that take you there.</h2>
-        <div class="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
-          <div class="partner glass rounded-xl px-4 py-5 text-sm font-bold tracking-wide">EMIRATES</div><div class="partner glass rounded-xl px-4 py-5 text-sm font-bold">AIR INDIA</div><div class="partner glass rounded-xl px-4 py-5 text-sm font-bold italic">IndiGo</div><div class="partner glass rounded-xl px-4 py-5 text-sm font-bold tracking-wide">ETIHAD</div><div class="partner glass rounded-xl px-4 py-5 text-sm font-bold">QATAR AIRWAYS</div><div class="partner glass rounded-xl px-4 py-5 text-sm font-bold">SINGAPORE AIR</div>
-        </div>
-      </div>
-    </section>
-
     <section id="partners" class="border-t border-white/5 px-5 py-16">
       <div class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-8 md:flex-row"><div><p class="text-[10px] font-bold uppercase tracking-[.25em] text-gold">Travel with confidence</p><h2 class="serif mt-2 text-4xl">Protection you can trust.</h2></div><div class="flex flex-wrap justify-center gap-3 text-xs font-semibold text-white/65"><span class="glass rounded-full px-5 py-3">TATA AIG</span><span class="glass rounded-full px-5 py-3">HDFC ERGO</span><span class="glass rounded-full px-5 py-3">ICICI LOMBARD</span></div></div>
     </section>
@@ -139,6 +226,85 @@
       menuToggle.innerHTML = '<i class="fa-solid fa-bars"></i>';
     }));
     document.getElementById('year').textContent = new Date().getFullYear();
+    const airlineCarousel = document.querySelector('#airlines');
+    const airlineTrack = document.getElementById('airline-track');
+    const airlineCards = Array.from(airlineTrack.querySelectorAll('article'));
+    const visibleAirlineCount = 4;
+    airlineTrack.replaceChildren(...airlineCards);
+    const airlineGap = parseFloat(window.getComputedStyle(airlineTrack).columnGap);
+    airlineTrack.style.width = `calc(${airlineCards.length / visibleAirlineCount * 100}% + ${(airlineCards.length - 1) * airlineGap}px)`;
+    airlineCards.forEach(card => {
+      card.style.flex = `0 0 calc((100% - ${(airlineCards.length - 1) * airlineGap}px) / ${airlineCards.length})`;
+      const carrier = card.querySelector('h3').textContent.trim();
+      const route = card.querySelector('h3 + p').textContent.trim().replace(/\s+/g, ' ');
+      const bookingLink = card.querySelector('.whatsapp-booking');
+      const message = `Hello Trivikarma Overseas, I would like to enquire about a flight with ${carrier} for ${route}. Please share available fares.`;
+      bookingLink.href = `https://wa.me/919924100211?text=${encodeURIComponent(message)}`;
+      bookingLink.setAttribute('aria-label', `Book ${carrier} via WhatsApp`);
+    });
+    const airlinePageStatus = document.getElementById('airline-page-status');
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let activeAirlineStep = 0;
+    let autoplayDirection = 1;
+    let autoplayTimer;
+    let carouselPaused = false;
+    const maxAirlineStep = Math.max(0, airlineCards.length - visibleAirlineCount);
+    const setAirlineStep = step => {
+      activeAirlineStep = Math.max(0, Math.min(step, maxAirlineStep));
+      const stepOffset = airlineCards[0].getBoundingClientRect().width + airlineGap;
+      airlineTrack.style.transform = `translateX(-${activeAirlineStep * stepOffset}px)`;
+      airlineCards.forEach((card, index) => {
+        const isVisible = index >= activeAirlineStep && index < activeAirlineStep + visibleAirlineCount;
+        card.setAttribute('aria-hidden', String(!isVisible));
+        card.inert = !isVisible;
+      });
+      airlinePageStatus.textContent = `Carriers ${activeAirlineStep + 1}–${activeAirlineStep + visibleAirlineCount} of ${airlineCards.length}`;
+      airlineCarousel.querySelector('.airline-prev').disabled = activeAirlineStep === 0;
+      airlineCarousel.querySelector('.airline-next').disabled = activeAirlineStep === maxAirlineStep;
+    };
+    const stopAirlineAutoplay = () => window.clearTimeout(autoplayTimer);
+    const scheduleAirlineAutoplay = () => {
+      stopAirlineAutoplay();
+      if (!carouselPaused && !prefersReducedMotion.matches) {
+        autoplayTimer = window.setTimeout(() => {
+          if (activeAirlineStep === maxAirlineStep) autoplayDirection = -1;
+          if (activeAirlineStep === 0) autoplayDirection = 1;
+          setAirlineStep(activeAirlineStep + autoplayDirection);
+          scheduleAirlineAutoplay();
+        }, 5000);
+      }
+    };
+    airlineCarousel.querySelector('.airline-prev').addEventListener('click', () => {
+      autoplayDirection = -1;
+      setAirlineStep(activeAirlineStep - 1);
+      scheduleAirlineAutoplay();
+    });
+    airlineCarousel.querySelector('.airline-next').addEventListener('click', () => {
+      autoplayDirection = 1;
+      setAirlineStep(activeAirlineStep + 1);
+      scheduleAirlineAutoplay();
+    });
+    airlineCarousel.addEventListener('mouseenter', () => {
+      carouselPaused = true;
+      stopAirlineAutoplay();
+    });
+    airlineCarousel.addEventListener('mouseleave', () => {
+      carouselPaused = false;
+      scheduleAirlineAutoplay();
+    });
+    airlineCarousel.addEventListener('focusin', () => {
+      carouselPaused = true;
+      stopAirlineAutoplay();
+    });
+    airlineCarousel.addEventListener('focusout', event => {
+      if (!airlineCarousel.contains(event.relatedTarget)) {
+        carouselPaused = false;
+        scheduleAirlineAutoplay();
+      }
+    });
+    prefersReducedMotion.addEventListener('change', scheduleAirlineAutoplay);
+    setAirlineStep(0);
+    scheduleAirlineAutoplay();
     document.getElementById('enquiryForm').addEventListener('submit', event => {
       event.preventDefault();
       const data = new FormData(event.currentTarget);
