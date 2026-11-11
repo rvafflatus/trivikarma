@@ -92,7 +92,7 @@
           </div>
         </div>
 
-        <div class="mt-9 overflow-hidden" aria-roledescription="carousel" aria-label="Airlines and popular routes">
+        <div id="airline-viewport" class="mt-9 overflow-hidden" aria-roledescription="carousel" aria-label="Airlines and popular routes">
           <div id="airline-track" class="flex gap-3 transition-transform duration-700 ease-in-out motion-reduce:transition-none">
             <div class="grid w-1/2 shrink-0 grid-cols-4 gap-1 sm:gap-4" role="group" aria-roledescription="slide" aria-label="Airlines 1 through 4">
               <article class="flex min-w-0 flex-col overflow-hidden rounded-2xl border border-white/10 bg-slate-900 p-2 transition hover:border-gold/50 sm:p-5">
@@ -228,13 +228,12 @@
     document.getElementById('year').textContent = new Date().getFullYear();
     const airlineCarousel = document.querySelector('#airlines');
     const airlineTrack = document.getElementById('airline-track');
+    const airlineViewport = document.getElementById('airline-viewport');
     const airlineCards = Array.from(airlineTrack.querySelectorAll('article'));
-    const visibleAirlineCount = 4;
+    let visibleAirlineCount = 4;
     airlineTrack.replaceChildren(...airlineCards);
     const airlineGap = parseFloat(window.getComputedStyle(airlineTrack).columnGap);
-    airlineTrack.style.width = `calc(${airlineCards.length / visibleAirlineCount * 100}% + ${(airlineCards.length - 1) * airlineGap}px)`;
     airlineCards.forEach(card => {
-      card.style.flex = `0 0 calc((100% - ${(airlineCards.length - 1) * airlineGap}px) / ${airlineCards.length})`;
       const carrier = card.querySelector('h3').textContent.trim();
       const route = card.querySelector('h3 + p').textContent.trim().replace(/\s+/g, ' ');
       const bookingLink = card.querySelector('.whatsapp-booking');
@@ -248,11 +247,10 @@
     let autoplayDirection = 1;
     let autoplayTimer;
     let carouselPaused = false;
-    const maxAirlineStep = Math.max(0, airlineCards.length - visibleAirlineCount);
+    let maxAirlineStep = Math.max(0, airlineCards.length - visibleAirlineCount);
     const setAirlineStep = step => {
       activeAirlineStep = Math.max(0, Math.min(step, maxAirlineStep));
-      const stepOffset = airlineCards[0].getBoundingClientRect().width + airlineGap;
-      airlineTrack.style.transform = `translateX(-${activeAirlineStep * stepOffset}px)`;
+      airlineTrack.style.transform = `translateX(-${activeAirlineStep * (airlineCards[0].getBoundingClientRect().width + airlineGap)}px)`;
       airlineCards.forEach((card, index) => {
         const isVisible = index >= activeAirlineStep && index < activeAirlineStep + visibleAirlineCount;
         card.setAttribute('aria-hidden', String(!isVisible));
@@ -261,6 +259,15 @@
       airlinePageStatus.textContent = `Carriers ${activeAirlineStep + 1}–${activeAirlineStep + visibleAirlineCount} of ${airlineCards.length}`;
       airlineCarousel.querySelector('.airline-prev').disabled = activeAirlineStep === 0;
       airlineCarousel.querySelector('.airline-next').disabled = activeAirlineStep === maxAirlineStep;
+    };
+    const updateAirlineLayout = () => {
+      const viewportWidth = airlineViewport.clientWidth;
+      visibleAirlineCount = viewportWidth < 640 ? 1 : viewportWidth < 1024 ? 2 : 4;
+      maxAirlineStep = Math.max(0, airlineCards.length - visibleAirlineCount);
+      const cardWidth = (viewportWidth - (visibleAirlineCount - 1) * airlineGap) / visibleAirlineCount;
+      airlineCards.forEach(card => { card.style.flex = `0 0 ${cardWidth}px`; });
+      airlineTrack.style.width = 'max-content';
+      setAirlineStep(activeAirlineStep);
     };
     const stopAirlineAutoplay = () => window.clearTimeout(autoplayTimer);
     const scheduleAirlineAutoplay = () => {
@@ -303,7 +310,8 @@
       }
     });
     prefersReducedMotion.addEventListener('change', scheduleAirlineAutoplay);
-    setAirlineStep(0);
+    window.addEventListener('resize', updateAirlineLayout);
+    updateAirlineLayout();
     scheduleAirlineAutoplay();
     document.getElementById('enquiryForm').addEventListener('submit', event => {
       event.preventDefault();
