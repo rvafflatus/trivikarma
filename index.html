@@ -3,33 +3,76 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#101b2c">
+  <meta name="theme-color" content="#fcfbf9">
   <meta name="description" content="Thoughtfully planned journeys, seamless flight bookings, visas and travel insurance from Trivikarma Overseas LLP, Ahmedabad.">
   <title>Trivikarma Overseas | Your World, Our Wings</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
-    tailwind.config = { theme: { extend: { colors: { ink: '#101b2c', gold: '#d8ad67', cream: '#f7f5f0' }, fontFamily: { sans: ['DM Sans', 'sans-serif'], display: ['Cormorant Garamond', 'serif'] } } } };
+    tailwind.config = { theme: { extend: { colors: { ink: '#17211c', gold: '#c59b27', cream: '#fcfbf9' }, fontFamily: { sans: ['DM Sans', 'sans-serif'], display: ['Cormorant Garamond', 'serif'] } } } };
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
   <style>
-    :root { color-scheme: dark; scroll-behavior: smooth; }
-    body { font-family: 'DM Sans', sans-serif; background: #101b2c; }
+    :root { color-scheme: light; scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; background: #fcfbf9; color: #17211c; }
     .serif { font-family: 'Cormorant Garamond', serif; }
-    .hero-image { background-image: linear-gradient(90deg, rgba(10,18,31,.92) 0%, rgba(10,18,31,.72) 42%, rgba(10,18,31,.12) 100%), url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=2200&q=85'); background-size: cover; background-position: center 54%; }
-    .glass { background: rgba(255,255,255,.075); border: 1px solid rgba(255,255,255,.13); backdrop-filter: blur(18px); }
-    .service-card { transition: transform .3s ease, border-color .3s ease, background .3s ease; }
-    .service-card:hover { transform: translateY(-7px); border-color: rgba(216,173,103,.55); background: rgba(255,255,255,.09); }
-    .partner { filter: grayscale(1); opacity: .7; transition: .2s ease; }
-    .partner:hover { filter: grayscale(0); opacity: 1; }
-    #airline-track .airline-code { position: absolute; bottom: .25rem; right: .25rem; border-radius: .35rem; background: rgba(15,23,42,.88); padding: .1rem .25rem; color: #d8ad67; font-size: .55rem; font-weight: 700; letter-spacing: .04em; }
+    .hero-image { background-image: linear-gradient(90deg, rgba(252,251,249,.98) 0%, rgba(252,251,249,.91) 38%, rgba(252,251,249,.48) 66%, rgba(23,33,28,.12) 100%), url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=2200&q=85'); background-size: cover; background-position: center 54%; }
+    .glass { background: rgba(255,255,255,.88); border: 1px solid rgba(197,155,39,.2); box-shadow: 0 16px 45px rgba(23,33,28,.08); backdrop-filter: blur(18px); }
+    .service-card { transition: transform .3s ease, border-color .3s ease, background .3s ease, box-shadow .3s ease; }
+    .service-card:hover { transform: translateY(-7px); border-color: rgba(197,155,39,.55); background: #fff; box-shadow: 0 20px 45px rgba(23,33,28,.12); }
+    #airline-track .airline-code { position: absolute; bottom: .25rem; right: .25rem; border-radius: .35rem; background: rgba(15,23,42,.82); padding: .1rem .25rem; color: #f5d477; font-size: .55rem; font-weight: 700; letter-spacing: .04em; }
+    header > div:nth-child(2) { background: rgba(252,251,249,.96); border-bottom: 1px solid rgba(148,163,184,.2); box-shadow: 0 8px 26px rgba(23,33,28,.05); }
+    header nav[aria-label="Main navigation"] { color: #334155; }
+    header #mobileMenu { background: rgba(255,255,255,.98); color: #17211c; box-shadow: 0 18px 40px rgba(23,33,28,.12); }
+    .hero-image [class*="text-white"] { color: #334155 !important; }
+    .hero-image .text-white { color: #17211c !important; }
+    .hero-image .fa-plane { color: rgba(22,75,59,.18) !important; }
+    .hero-image > div.absolute.inset-0 { background: linear-gradient(0deg, rgba(252,251,249,.7), transparent 34%, rgba(252,251,249,.12)); }
+    #airlines { background: #f5f3ed; color: #17211c; }
+    #airlines [class*="text-white"] { color: #64748b !important; }
+    #airlines h2, #airlines h3, #airlines .text-gold { color: #17211c; }
+    #airlines .text-gold { color: #a77c16; }
+    #airline-track article { border-color: rgba(148,163,184,.28); background: #fff; color: #17211c; box-shadow: 0 12px 30px rgba(23,33,28,.07); }
+    #airline-track article > div:first-child { position: relative; isolation: isolate; background-image: none; }
+    #airline-track article > div:first-child::before { position: absolute; z-index: -1; inset: 0; content: ""; background-position: center; background-size: cover; }
+    #airline-track article > div:first-child > i { color: rgba(255,255,255,.35) !important; }
+    #airline-track article > div:first-child .airline-art { background: rgba(15,23,42,.28); border-color: rgba(255,255,255,.65); color: #fff; backdrop-filter: blur(8px); }
+    #airline-track article:nth-of-type(1) > div:first-child::before { background-image: linear-gradient(90deg, rgba(8,20,30,.1), rgba(8,20,30,.36)), url('https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=900&q=80'); }
+    #airline-track article:nth-of-type(2) > div:first-child::before { background-image: linear-gradient(90deg, rgba(8,20,30,.1), rgba(8,20,30,.36)), url('https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=900&q=80'); }
+    #airline-track article:nth-of-type(3) > div:first-child::before { background-image: linear-gradient(90deg, rgba(8,20,30,.1), rgba(8,20,30,.36)), url('https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=900&q=80'); }
+    #airline-track article:nth-of-type(4) > div:first-child::before { background-image: linear-gradient(90deg, rgba(8,20,30,.1), rgba(8,20,30,.36)), url('https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=900&q=80'); }
+    #airline-track article:nth-of-type(5) > div:first-child::before { background-image: linear-gradient(90deg, rgba(8,20,30,.1), rgba(8,20,30,.36)), url('https://images.unsplash.com/photo-1525625293386-3f8f99389edd?auto=format&fit=crop&w=900&q=80'); }
+    #airline-track article:nth-of-type(6) > div:first-child::before { background-image: linear-gradient(90deg, rgba(8,20,30,.1), rgba(8,20,30,.36)), url('https://images.unsplash.com/photo-1512632578888-169bbbc64f33?auto=format&fit=crop&w=900&q=80'); }
+    #airline-track article:nth-of-type(7) > div:first-child::before { background-image: linear-gradient(90deg, rgba(8,20,30,.1), rgba(8,20,30,.36)), url('https://images.unsplash.com/photo-1511739001486-6bfe10ce785f?auto=format&fit=crop&w=900&q=80'); }
+    #airline-track article:nth-of-type(8) > div:first-child::before { background-image: linear-gradient(90deg, rgba(8,20,30,.1), rgba(8,20,30,.36)), url('https://images.unsplash.com/photo-1508009603885-50cf7c579365?auto=format&fit=crop&w=900&q=80'); }
+    #services .grid > article { position: relative; overflow: hidden; padding-top: 13rem; box-shadow: 0 10px 28px rgba(23,33,28,.05); }
+    #services .grid > article::before { position: absolute; inset: 0 0 auto; height: 11rem; content: ""; background-position: center; background-size: cover; }
+    #services .grid > article:nth-child(1)::before { background-image: linear-gradient(0deg, rgba(23,33,28,.1), rgba(23,33,28,.04)), url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=900&q=80'); }
+    #services .grid > article:nth-child(2)::before { background-image: linear-gradient(0deg, rgba(23,33,28,.1), rgba(23,33,28,.04)), url('https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=900&q=80'); }
+    #services .grid > article:nth-child(3)::before { background-image: linear-gradient(0deg, rgba(23,33,28,.1), rgba(23,33,28,.04)), url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=80'); }
+    #services .grid > article:nth-child(4)::before { background-image: linear-gradient(0deg, rgba(23,33,28,.1), rgba(23,33,28,.04)), url('https://images.unsplash.com/photo-1511818966892-d7d671e672a2?auto=format&fit=crop&w=900&q=80'); }
+    #enquiry { background: #fcfbf9; color: #17211c; }
+    #enquiry [class*="text-white"] { color: #64748b !important; }
+    #enquiry h2, #enquiry .text-gold { color: #17211c; }
+    #enquiry .text-gold { color: #a77c16; }
+    #enquiry form { border-color: #e2e8f0; background: #fff; box-shadow: 0 18px 48px rgba(23,33,28,.09); }
+    #enquiry input, #enquiry select, #enquiry textarea { border-color: #cbd5e1; background: #fff; color: #17211c; }
+    #enquiry input::placeholder, #enquiry textarea::placeholder { color: #94a3b8; }
+    #partners { border-color: #e2e8f0; background: #f5f3ed; color: #17211c; }
+    #partners [class*="text-white"] { color: #64748b !important; }
+    #partners h2, #partners .text-gold { color: #17211c; }
+    #partners .text-gold { color: #a77c16; }
+    #partners .glass { color: #334155; }
+    footer#contact { border-color: #e2e8f0; background: #fcfbf9; color: #17211c; }
+    footer#contact [class*="text-white"] { color: #64748b !important; }
+    footer#contact .text-gold { color: #a77c16; }
     input, select, textarea { color-scheme: light; }
     @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; } }
   </style>
 </head>
-<body class="text-white antialiased">
+<body class="text-slate-900 antialiased">
   <header class="absolute inset-x-0 top-0 z-30">
     <div class="border-b border-white/5 bg-slate-950/95 text-slate-300">
       <div class="mx-auto flex max-w-7xl flex-col items-start gap-y-1 px-4 py-2 text-[9px] sm:flex-row sm:items-center sm:justify-between sm:px-5 sm:text-xs lg:px-8">
@@ -197,7 +240,7 @@
       </div>
     </section>
 
-    <section class="relative overflow-hidden px-5 py-24 md:py-28">
+    <section id="enquiry" class="relative overflow-hidden px-5 py-24 md:py-28">
       <div class="absolute -right-36 -top-40 h-96 w-96 rounded-full bg-amber-400/5 blur-3xl"></div>
       <div class="relative mx-auto grid max-w-7xl gap-12 lg:grid-cols-[.8fr_1.2fr] lg:items-center">
         <div><p class="text-[10px] font-bold uppercase tracking-[.25em] text-gold">A little more personal</p><h2 class="serif mt-4 text-5xl leading-[.98] sm:text-6xl">Good journeys<br>begin with <em class="text-gold">a conversation.</em></h2><p class="mt-5 max-w-md text-sm leading-7 text-white/60">Tell us what you have in mind. A real person from our Ahmedabad team will be in touch to help make it happen.</p><div class="mt-8 space-y-3 text-sm text-white/75"><p><i class="fa-solid fa-phone w-6 text-gold"></i><a href="tel:+919924100211" class="hover:text-gold">+91 99241 00211</a></p><p><i class="fa-regular fa-envelope w-6 text-gold"></i><a href="mailto:support@trivikarma.com" class="hover:text-gold">support@trivikarma.com</a></p></div></div>
